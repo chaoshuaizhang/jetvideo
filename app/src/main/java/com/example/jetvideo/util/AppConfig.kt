@@ -1,12 +1,16 @@
 package com.example.jetvideo.util
 
+import android.content.res.AssetManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.jetvideo.App
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson.TypeReference
 import com.example.jetvideo.model.PageDestination
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.Exception
 
 class AppConfig {
     companion object {
