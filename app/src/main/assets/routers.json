@@ -1,0 +1,26 @@
+{
+  "main/tabs/publish": {
+    "asStarter": false,
+    "needLogin": false,
+    "className": "com.example.jetvideo.MainActivity",
+    "isActivity": true,
+    "id": 1924943852,
+    "routerUrl": "main/tabs/publish"
+  },
+  "main/home": {
+    "asStarter": false,
+    "needLogin": false,
+    "className": "com.example.jetvideo.ui.home.HomeFragment",
+    "isActivity": false,
+    "id": 295703691,
+    "routerUrl": "main/home"
+  },
+  "tab/dashboard": {
+    "asStarter": false,
+    "needLogin": false,
+    "className": "com.example.jetvideo.ui.dashboard.DashboardFragment",
+    "isActivity": false,
+    "id": 1740523366,
+    "routerUrl": "tab/dashboard"
+  }
+}
