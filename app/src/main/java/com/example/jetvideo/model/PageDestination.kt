@@ -1,6 +1,9 @@
 package com.example.jetvideo.model
 
 class PageDestination(
-        asStarter: Boolean,
+        val asStarter: Boolean,
         needLogin: Boolean,
-        className: String, isActivity: Boolean, id: Long, routerUrl: String)
+        val className: String,
+        val isActivity: Boolean,
+        val id: Int,
+        val routerUrl: String)

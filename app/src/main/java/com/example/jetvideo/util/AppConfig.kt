@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.fastjson.TypeReference
+import com.example.jetvideo.App
 import com.example.jetvideo.model.PageDestination
 import java.io.BufferedReader
 import java.io.InputStream
@@ -17,9 +18,8 @@ class AppConfig {
 
         private lateinit var destinationMap: Map<String, PageDestination>
 
-        @RequiresApi(Build.VERSION_CODES.N)
         fun parsePageJson(): Map<String, PageDestination> {
-            if(::destinationMap.isInitialized){
+            if (::destinationMap.isInitialized) {
                 return destinationMap
             }
             var stream: InputStream? = null
@@ -29,8 +29,15 @@ class AppConfig {
                 stream = getAssetManager().open("routers.json")
                 bufferedReader = BufferedReader(InputStreamReader(stream))
                 sb = StringBuilder()
-                bufferedReader.lines().forEach {
-                    sb.append(it)
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N)
+                    bufferedReader.lines().forEach {
+                        sb.append(it)
+                    }
+                else {
+                    var readLines = bufferedReader.readLines()
+                    readLines.forEach {
+                        sb.append(it)
+                    }
                 }
             } finally {
                 try {
@@ -42,17 +49,14 @@ class AppConfig {
                 } catch (e: Exception) {
                 }
             }
-            destinationMap = JSON.parseObject(sb.toString(), HashMap<String, PageDestination>()::class.java);
+            destinationMap = JSON.parseObject(sb.toString(), object : TypeReference<HashMap<String, PageDestination>>(){}.type);
             return destinationMap
 
         }
 
-        fun parseTabBarJson() {
-
-        }
-
         private fun getAssetManager(): AssetManager {
-            return AppGlobals.getAppInstance().assets
+//            return AppGlobals.getAppInstance().assets
+            return App.app.assets
         }
     }
 }
