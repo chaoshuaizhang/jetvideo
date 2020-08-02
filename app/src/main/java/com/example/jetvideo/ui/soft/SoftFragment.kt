@@ -1,6 +1,7 @@
 package com.example.jetvideo.ui.soft
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.example.libnavannotation.FragmentDestination
 @FragmentDestination(routerUrl = "main/tab/soft")
 class SoftFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d("TAG", "SoftFragment")
         return LayoutInflater.from(context).inflate(R.layout.frag_soft, container, false)
     }
 }
