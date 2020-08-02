@@ -1,2 +1,2 @@
-include ':app', ':libnavannotation', ':libnavcomplier'
+include ':app', ':libnavannotation', ':libnavcomplier', ':libnetwork'
 rootProject.name='JetVideo'
