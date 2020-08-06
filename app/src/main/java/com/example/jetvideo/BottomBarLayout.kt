@@ -47,7 +47,7 @@ class BottomBarLayout : BottomNavigationView {
                 // 得到对应pageDestination的id，与tabItem一一对应
                 var parsePageJson = AppConfig.parsePageJson()
                 var pageDestination = parsePageJson[it.pageUrl]
-                var id = AppConfig.parsePageJson()[it.pageUrl]!!.id.toInt()
+                var id = AppConfig.parsePageJson()[it.pageUrl]!!.id
                 menu.add(0, id, index++, it.title).setIcon(it.iconRes)
             }
         }
@@ -57,7 +57,7 @@ class BottomBarLayout : BottomNavigationView {
         // 因为每次执行add操作后，都会重新添加各个item，会导致之前设置的size无效
         for (i in tabs.indices) {
             val v = view.getChildAt(i) as BottomNavigationItemView
-            v.setIconSize(DimenUtil.dx2px(tabs[i].size).toInt())
+            v.setIconSize(DimenUtil.dp2px(tabs[i].size).toInt())
             if (TextUtils.isEmpty(tabs[i].title)) {
                 // 点击时 禁止抖动
                 v.setShifting(false)

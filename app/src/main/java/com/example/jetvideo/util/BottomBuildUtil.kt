@@ -20,11 +20,11 @@ class BottomBuildUtil {
             var tabBar = BottomTabBar.Companion.Builder()
                     .enableColor("#333333")
                     .disableColor("#666666")
-                    .addTab(BottomTab(true, "首页", R.drawable.icon_tab_home, 26f, "main/tab/home"))
-                    .addTab(BottomTab(true, "沙发", R.drawable.icon_tab_soft, 26f, "main/tab/soft"))
+                    .addTab(BottomTab(true, "首页", R.drawable.icon_tab_home, 24f, "main/tab/home"))
+                    .addTab(BottomTab(true, "沙发", R.drawable.icon_tab_soft, 24f, "main/tab/soft"))
                     .addTab(BottomTab(true, "", R.drawable.icon_tab_publish, 26f, "main/tab/publish"))
-                    .addTab(BottomTab(true, "发现", R.drawable.icon_tab_find, 26f, "main/tab/find"))
-                    .addTab(BottomTab(true, "我的", R.drawable.icon_tab_owner, 26f, "main/tab/owner"))
+                    .addTab(BottomTab(true, "发现", R.drawable.icon_tab_find, 24f, "main/tab/find"))
+                    .addTab(BottomTab(true, "我的", R.drawable.icon_tab_owner, 24f, "main/tab/owner"))
                     .build()
             return tabBar
         }
