@@ -2,6 +2,8 @@ package com.example.jetvideo;
 
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,7 +13,15 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
+    public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+         Ktest.Companion.testMap();
+//        Integer integer = new Integer(123);
+//        Class<? extends Integer> aClass = integer.getClass();
+//        Field field = aClass.getDeclaredField("TYPE");
+//        Class clazz = (Class) field.get(null);
+//        if (clazz.isPrimitive()) {
+//            System.out.println("-----------------");
+//        }
     }
 }

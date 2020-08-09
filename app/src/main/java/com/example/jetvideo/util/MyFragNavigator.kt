@@ -11,6 +11,10 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
 import java.util.ArrayDeque
 
+/*
+* 默认的fragmentNavigator是用replace来进行frag的切换的，这样
+* 会导致切换时frag进行频繁创建，所以重写下，改成hide-show
+* */
 @Navigator.Name("myFragNavigator")
 class MyFragNavigator(val context: Context, val manager: FragmentManager, val continerId: Int)
     : FragmentNavigator(context, manager, continerId) {
@@ -47,12 +51,15 @@ class MyFragNavigator(val context: Context, val manager: FragmentManager, val co
         val tag = destination.id
         var frag = manager.findFragmentByTag(tag.toString())
         if (frag != null) {
-            ft.show(frag!!)
+            ft.show(frag)
         } else {
             frag = manager.fragmentFactory.instantiate(context.classLoader, destination.className)
             frag.arguments = args
             ft.add(continerId, frag, destination.id.toString())
         }
+
+        // 如果不加这一行，会导致frag的覆盖
+        ft.setPrimaryNavigationFragment(frag)
         var field = FragmentNavigator::class.java.getDeclaredField("mBackStack")
         field.isAccessible = true
         var mBackStack: ArrayDeque<Int> = field.get(this) as ArrayDeque<Int>

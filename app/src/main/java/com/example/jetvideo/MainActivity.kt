@@ -2,15 +2,14 @@ package com.example.jetvideo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.alibaba.fastjson.JSONObject
 import com.example.jetvideo.util.NavGraphBuilder
-import com.example.libnavannotation.ActivityDestination
+import com.example.libnetwork.http.impl.GetRequest
+import com.example.libnetwork.http.NET_CACHE
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -28,10 +27,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        //
+
         navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
         NavGraphBuilder.buildNavGraph(navController, this, R.id.nav_host_fragment)
         navView.setOnNavigationItemSelectedListener(this)
+
     }
+
 }

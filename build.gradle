@@ -19,6 +19,12 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
+        /*
+        使用room时的包时，会下载一个三方的包 kotlinx-metadata-jvm.jar，会一直下不下来
+        添加这个资源库，就可以下下来了
+        * */
+        maven { url "https://kotlin.bintray.com/kotlinx/" }
         google()
         jcenter()
 

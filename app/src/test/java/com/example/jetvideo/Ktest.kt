@@ -11,7 +11,18 @@ import java.util.HashMap
 
 open class Ktest {
     companion object{
+
+        init {
+            println("----------------")
+        }
+
         fun testMap(){
+
+            var k = "22222"
+            k = k ?: "11111"
+
+            println(k)
+
             var map = Jtest.getMap()
             map.forEach { t, u ->
                 print("$t     ")
@@ -35,5 +46,16 @@ open class Ktest {
                 println(it)
             }
         }
+
+        fun testIntegerReflect(){
+            val value:Int = 8
+            var javaClass = value.javaClass
+            val field = javaClass.javaClass.getDeclaredField("TYPE")
+            val clazz = field.get(null) as Class<*>
+            if (clazz.isPrimitive()) {
+                println("-------------")
+            }
+        }
+
     }
 }

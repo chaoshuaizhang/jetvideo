@@ -3,7 +3,7 @@ package com.example.jetvideo.util
 import android.app.Application
 import kotlin.reflect.KClass
 
-class AppGlobals {
+class AppGlobalsKtKt {
     companion object {
         lateinit var app: Application
 

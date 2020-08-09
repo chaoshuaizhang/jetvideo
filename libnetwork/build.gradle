@@ -1,6 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+//使用生成文件
+kapt {
+    generateStubs = true
+}
 android {
     compileSdkVersion 29
     buildToolsVersion "30.0.1"
@@ -14,6 +19,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions{
+            annotationProcessorOptions {
+                // 指定room数据库，在升级、创建过程中产生操作记录
+                arguments = ["room.schemaLocation":"$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -22,7 +34,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -40,9 +55,16 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.0'
 
     implementation "androidx.room:room-runtime:2.2.5"
-
+    kapt 'androidx.room:room-compiler:2.2.5'
+//    kapt 'androidx.room:room-migration:2.2.5'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    implementation 'com.alibaba:fastjson:1.2.72'
+
+//    implementation 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
+
+    // 只参与编译，不参与打包
+    implementation project(':libcommon')
 
 
 }
