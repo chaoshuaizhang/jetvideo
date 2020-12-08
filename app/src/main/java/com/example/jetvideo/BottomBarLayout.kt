@@ -26,8 +26,12 @@ class BottomBarLayout : BottomNavigationView {
     @SuppressLint("RestrictedApi")
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             : super(context, attributeSet, defStyleAttr) {
+        initBarLayout()
+    }
 
-        // 获取到bar信息
+    @SuppressLint("RestrictedApi")
+    fun initBarLayout(){
+        // 获取到各个bar信息
         var bottomBar = BottomBuildUtil.generateBottomBar()
 
         var colors = intArrayOf(Color.parseColor(bottomBar.enableColor), Color.parseColor(bottomBar.disableColor))
@@ -50,6 +54,7 @@ class BottomBarLayout : BottomNavigationView {
             if (it.enable) {
                 // 得到对应pageDestination的id，与tabItem一一对应
                 val id = AppConfig.parsePageJson()[it.pageUrl]!!.id
+                // 在menu上添加各个tab
                 menu.add(0, id, index++, it.title).setIcon(it.iconRes)
             }
         }
@@ -61,11 +66,10 @@ class BottomBarLayout : BottomNavigationView {
             val v = view.getChildAt(i) as BottomNavigationItemView
             v.setIconSize(DimenUtil.dp2px(tabs[i].size).toInt())
             if (TextUtils.isEmpty(tabs[i].title)) {
-                // 点击时 禁止抖动
+                // 点击时 禁止抖动（这个设置是无效的，还是得设置active时的大小和非active时的大小一致，才能去除抖动效果）
                 v.setShifting(false)
                 v.setIconTintList(ColorStateList.valueOf(Color.parseColor("#ff678f")))
             }
         }
-
     }
 }

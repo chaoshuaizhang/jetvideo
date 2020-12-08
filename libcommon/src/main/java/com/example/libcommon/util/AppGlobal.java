@@ -1,6 +1,7 @@
 package com.example.libcommon.util;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
@@ -13,7 +14,6 @@ public class AppGlobal {
         new Executor(){
             @Override
             public void execute(Runnable command) {
-
             }
         };
         if (app == null) {

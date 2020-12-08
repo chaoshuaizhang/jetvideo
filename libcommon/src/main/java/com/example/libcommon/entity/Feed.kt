@@ -18,5 +18,6 @@ data class Feed (
     var url: String?,
     var cover: String?,
     var author: Author,
+    val topComment:Comment,
     var ugc:Ugc
 )

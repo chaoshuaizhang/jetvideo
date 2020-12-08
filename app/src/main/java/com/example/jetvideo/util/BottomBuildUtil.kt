@@ -10,6 +10,7 @@ class BottomBuildUtil {
 
         fun generateBottomBar(): BottomTabBar {
             if (!::bottomBar.isInitialized) {
+                // 根据需要，创建一系列的bar
                 bottomBar = initBottomTabBar()
             }
             return bottomBar

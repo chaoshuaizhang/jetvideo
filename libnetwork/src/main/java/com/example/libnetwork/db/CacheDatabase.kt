@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.libcommon.util.AppGlobal
+import com.example.libcommon.util.AppGlobalsKt
 import com.example.libnetwork.db.dao.CacheDao
 import com.example.libnetwork.db.entity.Cache
 
@@ -26,11 +27,25 @@ abstract class CacheDatabase : RoomDatabase() {
             // 可以把db的初始化定义在这里，类似于饿汉式，但是参考了官方的示例，定义为DCL的单例
         }
 
+        private fun getMigrations(): Migration {
+            /*
+            * 和greendao一样，在数据库升级时会清除所有数据，所以我们可以设置一些migrations，
+            * 来在升级过程中进行执行，创建备份数据、恢复数据
+            * */
+            val migrations = object : Migration(1, 3) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("")
+                }
+            }
+            return migrations
+        }
+
+
         /*
         * 创建内存数据库，进程杀死后，数据丢失
         * */
         // Room.inMemoryDatabaseBuilder()
-        private fun createDbInstance() = Room.databaseBuilder(AppGlobal.getAppInstance(),
+        private fun createDbInstance() = Room.databaseBuilder(AppGlobalsKt.getAppInstance(),
                 CacheDatabase::class.java, "jetvideo_cache.db")
                 // 是否允许主线程做查询，默认是不允许
                 .allowMainThreadQueries()
@@ -54,20 +69,6 @@ abstract class CacheDatabase : RoomDatabase() {
                 .fallbackToDestructiveMigrationOnDowngrade()
                 // .addMigrations(getMigrations())
                 .build()
-
-
-        private fun getMigrations(): Migration {
-            /*
-            * 和greendao一样，在数据库升级时会清除所有数据，所以我们可以设置一些migrations，
-            * 来在升级过程中进行执行，创建备份数据、恢复数据
-            * */
-            val migrations = object : Migration(1, 3) {
-                override fun migrate(database: SupportSQLiteDatabase) {
-                    database.execSQL("")
-                }
-            }
-            return migrations
-        }
 
         fun getDbInstance(): CacheDatabase = cacheDatabase
                 ?: synchronized(this) {

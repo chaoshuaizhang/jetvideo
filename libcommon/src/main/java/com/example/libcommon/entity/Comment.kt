@@ -8,6 +8,7 @@ data class Comment (
     var itemId: Long,
     var commentId: Long,
     var userId: Long,
+    // 2表示是视频类型
     var commentType: Int,
     var createTime: Long,
     var commentCount: Int,
@@ -19,5 +20,6 @@ data class Comment (
     var height: Int,
     var hasLiked: Boolean,
     var author: Author?,
-    var ugc: Ugc?
+    var ugc: Ugc?,
+    val topComment: TopComment
     )

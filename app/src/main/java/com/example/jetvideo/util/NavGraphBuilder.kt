@@ -18,7 +18,7 @@ class NavGraphBuilder {
         fun buildNavGraph(navController: NavController, activity: FragmentActivity, containerId: Int) {
             var navigatorProvider = navController.navigatorProvider
             // 使用navigator来创建destination，会导致frag是以replace形式加载的
-            var fragmentNavigator = MyFragNavigator(activity, activity.supportFragmentManager, containerId)
+            var fragmentNavigator = MyFragNavigatorJava(activity, activity.supportFragmentManager, containerId)
             // 注意，需要把我们自己创建的navigator加到provider中
             navigatorProvider.addNavigator(fragmentNavigator)
             var activityNavigator = navigatorProvider.getNavigator(ActivityNavigator::class.java)

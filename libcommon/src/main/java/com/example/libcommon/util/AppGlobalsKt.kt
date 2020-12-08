@@ -1,17 +1,16 @@
-package com.example.jetvideo.util
+package com.example.libcommon.util
 
 import android.app.Application
-import kotlin.reflect.KClass
 
-class AppGlobalsKtKt {
+class AppGlobalsKt {
     companion object {
         lateinit var app: Application
 
         fun getAppInstance(): Application {
             val aClass = Class.forName("android.app.ActivityThread")
             var method = aClass.getDeclaredMethod("currentApplication")
-            var app: Application = method.invoke(null, null) as Application
-            return app;
+            return method.invoke(null) as Application;
         }
     }
+
 }

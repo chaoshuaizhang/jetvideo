@@ -21,3 +21,8 @@ BottomNavigator的问题：
 2. 文字、图标点击变大问题
 
 使用MaterialButton时，需要更改一下系统的主题
+iconGravity设置为textStart的原因是：保持文字和图标是相邻的
+
+Space布局的使用：是一个没有背景的view，只是充当占位布局使用
+
+当组件的宽高不确定，需要在运行时动态计算时，就不建议使用databinding进行绑定

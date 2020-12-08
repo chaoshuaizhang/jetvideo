@@ -18,5 +18,12 @@
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_25">25dp</dimen>
     <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_36">36dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_110">160dp</dimen>
 
 </resources>

@@ -19,7 +19,33 @@
         <item name="android:insetRight">0dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
+    </style>
 
+    <style name="FeedTab_MaterialButton_Style" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:textColor">@color/color_gray</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10</item>
+        <item name="android:layout_marginRight">@dimen/dp_10</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="MyProgressPar">
+        　　
+        <item name="android:indeterminateDrawable">@drawable/aaaaa</item>
+
+        <item name="android:indeterminateDuration">10000</item>
+        　　
+        <item name="android:minWidth">76dip</item>
+        　　
+        <item name="android:maxWidth">76dip</item>
+        　　
+        <item name="android:minHeight">76dip</item>
+        　　
+        <item name="android:maxHeight">76dip</item>
     </style>
 
 </resources>

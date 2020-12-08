@@ -16,4 +16,18 @@
         <item name="android:elevation">0dp</item>
 
     </style>
+
+    <style name="FeedTab_MaterialButton_Style" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:backgroundTint">@color/color_white</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:textColor">@color/color_gray</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10</item>
+        <item name="android:layout_marginRight">@dimen/dp_10</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTintMode">screen</item>
+    </style>
 </resources>

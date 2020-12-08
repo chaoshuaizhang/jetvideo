@@ -16,6 +16,7 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
          Ktest.Companion.testMap();
+        System.out.println(Ktest.Companion.aaa("123wq"));
 //        Integer integer = new Integer(123);
 //        Class<? extends Integer> aClass = integer.getClass();
 //        Field field = aClass.getDeclaredField("TYPE");

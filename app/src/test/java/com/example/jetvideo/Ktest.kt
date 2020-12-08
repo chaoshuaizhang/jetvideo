@@ -16,6 +16,10 @@ open class Ktest {
             println("----------------")
         }
 
+        fun aaa(s:String) = with(String()){
+            "rtyu"
+        }
+
         fun testMap(){
 
             var k = "22222"

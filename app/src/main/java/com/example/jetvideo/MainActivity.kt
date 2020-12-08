@@ -3,11 +3,15 @@ package com.example.jetvideo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.alibaba.fastjson.JSONObject
+import com.example.jetvideo.jetpack.TestLifecycle
 import com.example.jetvideo.util.NavGraphBuilder
+import com.example.libcommon.util.AppGlobalsKt
 import com.example.libnetwork.http.impl.GetRequest
 import com.example.libnetwork.http.NET_CACHE
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -26,13 +30,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        // 获得自定义的bottomTablayout
+        val bottomTabLayout: BottomNavigationView = findViewById(R.id.nav_view)
 
         navController = findNavController(R.id.nav_host_fragment)
-        navView.setupWithNavController(navController)
+        bottomTabLayout.setupWithNavController(navController)
         NavGraphBuilder.buildNavGraph(navController, this, R.id.nav_host_fragment)
-        navView.setOnNavigationItemSelectedListener(this)
-
+        bottomTabLayout.setOnNavigationItemSelectedListener(this)
+        lifecycle.addObserver(TestLifecycle())
     }
+
+
 
 }
