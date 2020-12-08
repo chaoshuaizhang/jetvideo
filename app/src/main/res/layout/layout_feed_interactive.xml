@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.example.libcommon.util.StringUtils" />
+        <import type="com.example.libcommon.StringUtilsjava" />
+
+        <variable
+            name="hasLiked"
+            type="Boolean" />
+
+        <variable
+            name="likeCount"
+            type="Integer" />
+
+        <variable
+            name="hasdiss"
+            type="Boolean" />
+
+        <variable
+            name="commentCount"
+            type="Integer" />
+
+        <variable
+            name="shareCount"
+            type="Integer" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/FeedTab_MaterialButton_Style"
+            android:text="@{StringUtilsjava.convertUgcLikeCount(likeCount)}"
+            android:textColor="@{hasLiked ? @color/colorAccent : @color/color_gray}"
+            app:icon="@{hasLiked ? @drawable/icon_cell_like : @drawable/icon_cell_like}"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/FeedTab_MaterialButton_Style"
+            android:text="踩"
+            android:textColor="@{hasLiked ? @color/colorAccent : @color/color_gray}"
+            app:icon="@{hasdiss ? @drawable/icon_cell_dissed:@drawable/icon_cell_diss}"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/FeedTab_MaterialButton_Style"
+            android:text="@{StringUtilsjava.convertUgcLikeCount(commentCount)}"
+            app:icon="@drawable/icon_cell_comment"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/FeedTab_MaterialButton_Style"
+            android:text="@{StringUtilsjava.convertUgcLikeCount(shareCount)}"
+            app:icon="@drawable/icon_cell_share"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dp_4"
+            app:iconTint="@color/color_gray" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.example.libcommon.entity.Feed" />
+
+        <variable
+            name="feed"
+            type="Feed" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/layout_feed_author"
+            app:author="@{feed.author}" />
+
+        <include
+            layout="@layout/layout_feed_moodtext"
+            app:moodText="@{feed.feeds_text}" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher_round"
+            app:imageUrl="@{feed.cover}"
+            app:isCircle="@{false}" />
+
+        <include
+            layout="@layout/layout_feed_tag"
+            app:feedTag="@{feed.activityText}"
+            app:tagIcon="@{feed.activityIcon}" />
+
+        <include
+            layout="@layout/layout_feed_god_comment"
+            app:comment="@{feed.topComment}" />
+
+        <include
+            layout="@layout/layout_feed_interactive"
+            app:commentCount="@{feed.ugc.commentCount}"
+            app:hasLiked="@{feed.ugc.hasLiked}"
+            app:hasdiss="@{feed.ugc.hasdiss}"
+            app:likeCount="@{feed.ugc.likeCount}"
+            app:shareCount="@{feed.ugc.shareCount}" />
+
+    </LinearLayout>
+</layout>

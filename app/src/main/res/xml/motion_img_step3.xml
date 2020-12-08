@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    app:defaultDuration="2000"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- A transition describes an animation via start and end state -->
+    <Transition
+        app:constraintSetStart="@id/start"
+        app:constraintSetEnd="@id/end"
+        app:duration="5000">
+
+        <KeyFrameSet>
+            <!--定义关键帧-->
+            <KeyPosition
+                app:framePosition="20"
+                app:motionTarget="@id/image_1"
+                app:keyPositionType="pathRelative"
+                app:percentY="0.2"
+                />
+
+            <KeyPosition
+                app:framePosition="40"
+                app:motionTarget="@id/image_1"
+                app:keyPositionType="pathRelative"
+                app:percentY="-0.3"
+                />
+            <KeyPosition
+                app:framePosition="60"
+                app:motionTarget="@id/image_1"
+                app:keyPositionType="pathRelative"
+                app:percentY="0.4"
+                />
+            <KeyPosition
+                app:framePosition="80"
+                app:motionTarget="@id/image_1"
+                app:keyPositionType="pathRelative"
+                app:percentY="-0.5"
+                />
+
+            <KeyAttribute
+                app:motionTarget="@id/image_1"
+                android:rotation="-360"
+                android:scaleX="2.0"
+                android:scaleY="2.0"
+                app:framePosition="20"
+                />
+            <KeyAttribute
+                app:motionTarget="@id/image_1"
+                android:rotation="-360"
+                android:scaleX="1.0"
+                android:scaleY="1.0"
+                app:framePosition="40"
+                />
+            <KeyAttribute
+                app:motionTarget="@id/image_1"
+                android:rotation="-360"
+                android:scaleX="3.0"
+                android:scaleY="3.0"
+                app:framePosition="60"
+                />
+            <KeyAttribute
+                app:motionTarget="@id/image_1"
+                android:rotation="-360"
+                android:scaleX="2.0"
+                android:scaleY="2.0"
+                app:framePosition="80"
+                />
+            <KeyAttribute
+                app:motionTarget="@id/image_1"
+                android:rotation="-720"
+                app:framePosition="100"
+                />
+        </KeyFrameSet>
+
+        <OnSwipe
+            app:touchAnchorId="@id/image_1"
+            app:touchAnchorSide="bottom"
+            app:dragDirection="dragDown"
+            />
+    </Transition>
+
+
+    <!-- Constraints to apply at the start of the animation -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/image_1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </ConstraintSet>
+
+    <!-- Constraints to apply at the end of the animation -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/image_1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </ConstraintSet>
+
+</MotionScene>
