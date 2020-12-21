@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <hideShowFragNavigator
+        android:id="@+id/ownerFragment"
+        android:name="com.example.jetvideo.ui.owner.OwnerFragment"
+        android:label="OwnerFragment" />
+    <hideShowFragNavigator
+        android:id="@+id/homeFragment"
+        android:name="com.example.jetvideo.ui.home.HomeFragment"
+        android:label="HomeFragment" />
+    <hideShowFragNavigator
+        android:id="@+id/softFragment"
+        android:name="com.example.jetvideo.ui.soft.SoftFragment"
+        android:label="SoftFragment" />
+    <hideShowFragNavigator
+        android:id="@+id/publishActivity"
+        android:name="com.example.jetvideo.ui.publish.PublishActivity"
+        android:label="PublishActivity" />
+    <hideShowFragNavigator
+        android:id="@+id/findFragment"
+        android:name="com.example.jetvideo.ui.find.FindFragment"
+        android:label="FindFragment" />
+</navigation>
