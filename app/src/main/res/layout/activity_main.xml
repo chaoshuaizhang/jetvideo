@@ -13,10 +13,22 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginBottom="@dimen/dp_28"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_nav"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.example.jetvideo.widget.BottomWithFloatingNavView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen56"
+        android:layout_height="@dimen/dp_56"
+        app:fabCradleMargin="@dimen/dp_8"
+        app:fabCradleRoundedCornerRadius="@dimen/dp_8"
+        app:fabCradleSize="@dimen/dp_56"
+        app:fabCradleVerticalOffset="0dp"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_nav" />

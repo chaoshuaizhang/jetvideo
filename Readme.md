@@ -26,3 +26,15 @@ iconGravity设置为textStart的原因是：保持文字和图标是相邻的
 Space布局的使用：是一个没有背景的view，只是充当占位布局使用
 
 当组件的宽高不确定，需要在运行时动态计算时，就不建议使用databinding进行绑定
+
+-----------------------------------------------------------------
+
+## 自定义BottomAppBar风格的BottomNavigationView
+自定义obtainStyledAttributes时，获取数值类型的方法：
+```
+// 获取到的是小数，是像素 eg:26.25
+attrs.getDimension(R.styleable.BottomWithFloatingNavView_fabCradleMargin, 0f)
+// 获取到的是整数，也是像素 eg:26
+attrs.getDimensionPixelOffset(R.styleable.BottomWithFloatingNavView_fabCradleMargin, 0)
+```
+>所以，getDimension获取到的也是像素大小，不是dp

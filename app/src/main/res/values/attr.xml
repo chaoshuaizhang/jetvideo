@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomWithFloatingNavView">
+        <!-- Elevation for the BottomAppBar. -->
+        <attr name="elevation" />
+        <!-- The margin between the semi-circular cradle for the fab and the fab. -->
+        <attr name="fabCradleMargin" format="dimension" />
+        <!-- The radius of the rounded corners on each side of the cradle摇篮. -->
+        <attr name="fabCradleRoundedCornerRadius" format="dimension" />
+        <!-- The vertical offset between the fab from the cradle. -->
+        <attr name="fabCradleVerticalOffset" format="dimension" />
+        <attr name="fabCradleSize" format="dimension" />
+    </declare-styleable>
+</resources>
