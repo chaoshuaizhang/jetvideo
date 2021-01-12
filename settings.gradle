@@ -1,2 +1,2 @@
 include ':app', ':libnetwork', ':libcommon'
-rootProject.name='JetVideo'
+rootProject.name='Test'

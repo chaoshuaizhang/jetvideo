@@ -40,4 +40,4 @@ attrs.getDimensionPixelOffset(R.styleable.BottomWithFloatingNavView_fabCradleMar
 >所以，getDimension获取到的也是像素大小，不是dp
 
 ## 封装
-采用
+

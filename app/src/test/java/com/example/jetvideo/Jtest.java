@@ -1,17 +1,13 @@
 package com.example.jetvideo;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.example.jetvideo.model.PageDestination;
+import com.example.jetvideo.data.model.PageDestination;
 
 import org.junit.Test;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 public class Jtest {
 

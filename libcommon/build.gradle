@@ -35,4 +35,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    api "io.reactivex.rxjava3:rxjava:3.0.9"
+    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
 }
