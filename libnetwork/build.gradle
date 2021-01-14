@@ -65,6 +65,6 @@ dependencies {
     // 只参与编译，不参与打包
     implementation project(':libcommon')
     implementation 'androidx.multidex:multidex:2.0.1'
-
+    api 'com.google.code.gson:gson:2.8.6'
 
 }
