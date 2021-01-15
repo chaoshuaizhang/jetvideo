@@ -1,6 +1,7 @@
 package com.example.libnetwork.http
 
 import android.util.Log
+import com.example.libnetwork.db.entity.ApiResponse
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,6 +11,9 @@ import java.util.concurrent.TimeUnit
 class HttpClient {
 
     companion object {
+
+        const val WAN_ANDROID = "https://wanandroid.com/"
+
         val INSTANCE by lazy {
             OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor())
@@ -17,10 +21,12 @@ class HttpClient {
                 .build()
         }
 
-        fun <T> getRequest(url: String) = GetRequest<T>(url)
+        fun <T> getWanAndroidRequest(path: String) = GetRequest<T>(WAN_ANDROID + path)
 
-        fun <T> getRequestCallback(url: String, cb: MyCallback<T>) {
-            GetRequest<T>(url).enqueue(cb)
+        fun <T> postRequest(path: String) = PostRequest<T>(path)
+
+        fun <T> getRequestCallback(path: String, cb: MyCallback<T>) {
+            GetRequest<T>(path).enqueue(cb)
         }
 
     }

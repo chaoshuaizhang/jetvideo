@@ -1,20 +1,15 @@
 package com.example.libnetwork.http
 
 import android.util.Log
-import android.view.View
 import com.alibaba.fastjson.JSONObject
-import com.example.libnetwork.db.entity.WordDTO
-import io.reactivex.rxjava3.core.Emitter
+import com.example.libcommon.util.measureTime
+import com.example.libnetwork.db.entity.ApiResponse
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
 import okhttp3.*
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-import java.lang.Exception
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import java.util.concurrent.TimeUnit
 
 /*
 * 每个请求都会重新创建一个request，所以这里只存储和当前请求相关的东西
@@ -26,8 +21,8 @@ abstract class BaseRequest<T, R> {
     val CACHE_FIRST = 3
     val NET_CACHE = 4
 
-    val baseUrl = ""
-    val params = mutableMapOf<String, Any>()
+    private lateinit var params: MutableMap<String, Any>
+    lateinit var requestBody: RequestBody
     lateinit var mType: Type
 
     protected abstract fun generateRequest(): Request
@@ -38,12 +33,30 @@ abstract class BaseRequest<T, R> {
         return HttpClient.INSTANCE.newCall(request)
     }
 
-    fun addParam(k: String, v: Any) = apply { params[k] = v }
+    fun addParam(k: String, v: Any) = apply {
+        if (!::params.isInitialized) {
+            params = mutableMapOf()
+        }
+        params[k] = v
+    }
+
+    fun generateUrlParams(url: String): String {
+        if (!::params.isInitialized) return url
+        var tmp = url
+        tmp += "?"
+        for ((k, v) in params) {
+            tmp += "k=$k&v=$v&"
+        }
+        return tmp.removeRange(tmp.length - 1, tmp.length - 1)
+    }
+
+    fun addRequestBody(body: RequestBody) = apply {
+        requestBody = body
+    }
 
     fun setConvertType(type: Type) = apply { mType = type }
 
     fun enqueue(): Observable<T> = Observable.create {
-        Log.d("onResponseTAG---", "getRequestWithCb: ${Thread.currentThread().name}")
         enqueue(it)
     }
 
@@ -76,17 +89,21 @@ abstract class BaseRequest<T, R> {
             override fun onResponse(call: Call, response: Response) {
                 val parameterizedType = cb.javaClass.genericSuperclass as ParameterizedType
                 val type = parameterizedType.actualTypeArguments[0]
-                val res = JSONObject.parseObject(response.body?.string(), type) as T
-                println(res)
-                cb.onSuccess(res)
+                val result = JSONObject.parseObject(response.body?.string(), type) as T
+                cb.onSuccess(result)
             }
         })
     }
 
     private fun parseResponse(emitter: ObservableEmitter<T>, response: Response) {
         if (response.isSuccessful && ::mType.isInitialized) {
-            val result = JSONObject.parseObject(response.body?.string(), mType) as T
-            emitter.onNext(result)
+            measureTime {
+                val apiResponse = JSONObject.parseObject(response.body?.string(), ApiResponse::class.java)
+                val result = JSONObject.parseObject(apiResponse.data.toString(), mType) as T
+                emitter.onNext(result)
+            }.let {
+                Log.d("getRequestWithCb", "parseResponse解析时间: $it")
+            }
         } else {
             emitter.onError(Exception("暂时需要传入一个类型 TypeToken / TypeReference"))
         }
