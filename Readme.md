@@ -10,11 +10,43 @@
 因为我们需要解析，所以对应的类型不能被擦除
 
 room的学习：
-1. 定义子类继承自RoomDatabase
+1. 定义子类（需要是抽象类或者是接口）继承自RoomDatabase
 2. 创建数据库（可以设置一些基本操作：日志、线程池） @Database
 3. 数据库升级，备份--恢复
 4. 定义对应的表
 5. 定义对表的操作类 @Dao
+
+注解学习
+@Embedded 嵌套注解
+```
+public class Coordinates {
+  double latitude;
+  double longitude;
+}
+public class Address {
+  String street;
+  @Embedded Coordinates coordinates;
+}
+// 此时，Coordinates的属性名就会嵌套在address这个表里，作为列
+```
+
+Room疑问
+1. update时为什么可能会有冲突？
+2. 报错：Execution failed for task ':libnetwork:kaptDebugKotlin'.
+   > A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
+      > java.lang.reflect.InvocationTargetException (no error message)
+原因如下：
+
+@delete注解默认是传入一个具体的一行“对象”的，如果只传入一个字段，则需要用entity标注一下具体是哪个表
+因为你只是在CacheDao这个接口类里，但是并没有任何信息表明：你操作的就是 Cache 这个表.
+room坑爹，一些错误根本不给提示
+    @Delete(entity = Cache::class)
+    fun delete(key: String)
+
+    @Delete
+    fun delete(cache: Cache)
+
+
 
 BottomNavigator的问题：
 1. 图标着色问题

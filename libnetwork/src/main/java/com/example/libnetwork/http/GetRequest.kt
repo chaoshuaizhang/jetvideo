@@ -2,10 +2,7 @@ package com.example.libnetwork.http
 
 import okhttp3.Request
 
-class GetRequest<T>(var url: String) : BaseRequest<T, GetRequest<T>>() {
+class GetRequest<T>(url: String) : BaseRequest<T, GetRequest<T>>(url) {
 
-    override fun generateRequest(): Request {
-        return Request.Builder().url(generateUrlParams(url)).build()
-    }
-
+    override fun generateRequest() = Request.Builder().url(generateUrlParams())
 }
