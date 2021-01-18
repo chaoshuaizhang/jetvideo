@@ -1,13 +1,11 @@
 package com.example.libnetwork.db
 
-import androidx.room.Database
-import androidx.room.Entity
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.example.libcommon.AppGlobal
 import com.example.libnetwork.db.entity.Cache
 
 @Database(entities = [Cache::class], version = 1, exportSchema = true)
+@TypeConverters(value = [DateConverter::class])
 abstract class CacheDatabase : RoomDatabase() {
     companion object {
         val cacheDbInstance by lazy {
