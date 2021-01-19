@@ -8,7 +8,10 @@ import com.alibaba.fastjson.JSON
 import com.example.jetvideo.adapter.MyTestAdapter
 import com.example.jetvideo.databinding.FragHomeBinding
 import com.example.jetvideo.ui.base.BaseViewBindingFrag
+import com.example.libnetwork.CacheManager
+import com.example.libnetwork.db.CacheDatabase
 import com.example.libnetwork.db.entity.ApiResponse
+import com.example.libnetwork.db.entity.Cache
 import com.example.libnetwork.db.entity.WordDTO
 import com.example.libnetwork.http.HttpClient
 import com.example.libnetwork.http.MyCallback
@@ -40,18 +43,18 @@ class HomeFragment : BaseViewBindingFrag<FragHomeBinding>() {
         }
 
         binding.myButton.setOnClickListener {
-            HttpClient.WAN_ANDROID
-            HttpClient.getWanAndroidRequest<List<WordDTO>>("wxarticle/chapters/json")
-                    .setConvertType(object : TypeToken<List<WordDTO>>() {}.type)
-                    .cacheStrategy(NET_CACHE)
-                    .cacheKey("12345")
-                    .enqueue()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        Toast.makeText(context, "${it.size}      ${it.get(0).name}", Toast.LENGTH_SHORT).show()
-                    }, {
-                        it.printStackTrace()
-                    })
+            CacheDatabase.cacheDbInstance.cacheDao().insert(Cache("111", byteArrayOf(), "123", 4567))
+//            HttpClient.getWanAndroidRequest<List<WordDTO>>("wxarticle/chapters/json")
+//                    .setConvertType(object : TypeToken<List<WordDTO>>() {}.type)
+//                    .cacheStrategy(NET_CACHE)
+//                    .cacheKey("12345")
+//                    .enqueue()
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe({
+//                        Toast.makeText(context, "${it.size}      ${it.get(0).name}", Toast.LENGTH_SHORT).show()
+//                    }, {
+//                        it.printStackTrace()
+//                    })
         }
     }
 
