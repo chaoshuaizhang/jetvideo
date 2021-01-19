@@ -1,3 +1,5 @@
+[接口文档](http://123.56.232.18:8080/serverdemo/swagger-ui.html)
+
 #### 改造Navagation，目的就是不想在布局文件中配置fragment，而是通过代码配置。
 >目的是自定义生成NavGraph，然后与NavController进行关联。现在的NavGraph是通过在xml不会剧中配置由系统自动生成的。
 

@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream
 object CacheManager {
 
     fun <T> cache(key: String, v: T) {
-
         ByteArrayOutputStream().use { baas ->
             ObjectOutputStream(baas).use { oos ->
                 oos.writeObject(v)
@@ -21,8 +20,7 @@ object CacheManager {
     }
 
     fun <T> queryCache(key: String): T? {
-        val cache = CacheDatabase.cacheDbInstance.cacheDao().query(key)
-        if (cache == null) return null
+        val cache = CacheDatabase.cacheDbInstance.cacheDao().query(key) ?: return null
         val bais = ByteArrayInputStream(cache.data)
         val ois = ObjectInputStream(bais)
         return ois.readObject() as? T

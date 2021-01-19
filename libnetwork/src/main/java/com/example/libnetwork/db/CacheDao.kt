@@ -10,7 +10,7 @@ interface CacheDao {
     fun insert(cache: Cache)
 
     @Query("select * from cache where `key` = :key")
-    fun query(key: String): Cache
+    fun query(key: String): Cache?
 
     @Delete(entity = Cache::class)
     fun delete(key: String)

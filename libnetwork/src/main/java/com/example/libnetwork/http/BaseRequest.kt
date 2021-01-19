@@ -141,6 +141,7 @@ abstract class BaseRequest<T, R>(val url: String) {
     * 注意：即使是异步，回调还是在子线程
     * */
     private fun enqueue(emitter: ObservableEmitter<T>) {
+        // TODO: 2021/1/19/019 这块儿缓存相关的放在这里不合适，需要单独抽出来
         cacheKey?.let {
             CacheManager.queryCache<T>(it)?.let { result ->
                 Log.d("TAGCacheManager", "enqueue: $result")
@@ -167,7 +168,7 @@ abstract class BaseRequest<T, R>(val url: String) {
     /*
     * 异步方式，通过回调接口的形式
     * */
-    fun enqueue(cb: MyCallback<T>) {
+    fun enqueue(cb: ResponseCallback<T>) {
         getCall().enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 cb.onError(e)
@@ -187,6 +188,7 @@ abstract class BaseRequest<T, R>(val url: String) {
         if (response.isSuccessful) {
             measureTime {
                 response.body?.let { body ->
+                    // TODO: 2021/1/19/019 这块儿的逻辑是否可以下沉，放在这有可能不符合开闭原则
                     when {
                         ::convert.isInitialized -> {
                             result = convert.convert(body.string())

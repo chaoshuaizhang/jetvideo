@@ -1,6 +1,7 @@
 package com.example.libnetwork
 
 import androidx.room.TypeConverter
+import com.example.libnetwork.db.CacheDatabase
 
 class LongStrConverter {
     @TypeConverter
