@@ -2,6 +2,7 @@ package com.example.jetvideo.ui.home
 
 import android.util.Log
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -50,17 +51,19 @@ class HomeFragment : BaseDataBindingFrag<FragHomeBinding>() {
         binding.myButton.setOnClickListener {
             viewModel.loadFeeds()
             HttpClient.getPPJokeRequest<FeedEntity>("feeds/queryHotFeedsList")
-                .addQuery("feedId", 0)
-                .addQuery("feedType", "video")
-                .addQuery("pageCount", 10)
-                .setConvertType(typeToken<FeedEntity>())
-                .enqueue()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.d("getPPJokeRequestTAG", "initView: ")
-                }, {
-                    it.printStackTrace()
-                })
+                    .addQuery("feedId", 0)
+                    .addQuery("feedType", "video")
+                    .addQuery("pageCount", 10)
+                    .setConvertType(object : TypeToken<FeedEntity>() {}.type)
+                    .enqueue()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        Log.d("getPPJokeRequestTAG", "initView: ")
+                        binding.feed = it.data[0]
+                        Toast.makeText(activity, "${it.data[0].feeds_text}", Toast.LENGTH_SHORT).show()
+                    }, {
+                        it.printStackTrace()
+                    })
         }
     }
 
