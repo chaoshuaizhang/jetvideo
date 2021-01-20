@@ -9,9 +9,9 @@ object UrlCreator {
         params?.let {
             var tmpUrl = "$url?"
             it.forEach { entry ->
-                tmpUrl += "$it=${entry.value.encode()}&"
+                tmpUrl += "${entry.key}=${entry.value.encode()}&"
             }
-            return tmpUrl.removeRange(tmpUrl.length - 1, tmpUrl.length - 1)
+            return tmpUrl.removeRange(tmpUrl.length - 1, tmpUrl.length)
         }
         return url
     }

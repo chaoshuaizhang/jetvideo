@@ -1,4 +1,6 @@
 package com.example.jetvideo.data.model
 
-class BaseViewModel {
+import androidx.lifecycle.ViewModel
+
+open class BaseViewModel:ViewModel() {
 }

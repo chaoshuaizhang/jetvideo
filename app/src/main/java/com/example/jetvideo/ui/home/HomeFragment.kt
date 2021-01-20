@@ -1,20 +1,38 @@
 package com.example.jetvideo.ui.home
 
+import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.fastjson.JSONObject
+import com.example.jetvideo.R
 import com.example.jetvideo.adapter.MyTestAdapter
+import com.example.jetvideo.data.model.HomeViewModel
 import com.example.jetvideo.databinding.FragHomeBinding
+import com.example.jetvideo.dto.FeedEntity
+import com.example.jetvideo.ui.base.BaseDataBindingFrag
 import com.example.jetvideo.ui.base.BaseViewBindingFrag
+import com.example.libcommon.util.typeToken
+import com.example.libnetwork.db.CacheDatabase
+import com.example.libnetwork.db.entity.Cache
 import com.example.libnetwork.db.entity.WordDTO
 import com.example.libnetwork.http.HttpClient
 import com.example.libnetwork.http.NET_CACHE
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.flow
 import okhttp3.*
+import java.util.*
+import kotlin.random.Random
 
-class HomeFragment : BaseViewBindingFrag<FragHomeBinding>() {
+class HomeFragment : BaseDataBindingFrag<FragHomeBinding>() {
 
-    override fun getViewBinding() = FragHomeBinding.inflate(layoutInflater)
+    val viewModel: HomeViewModel by viewModels()
+
+    override fun getLayoutId() = R.layout.frag_home
 
     override fun initView() {
         binding.recyclerview.apply {
@@ -26,18 +44,23 @@ class HomeFragment : BaseViewBindingFrag<FragHomeBinding>() {
             adapter = MyTestAdapter(context, list)
         }
 
+        viewModel.feedList.observe(this) {
+
+        }
         binding.myButton.setOnClickListener {
-            HttpClient.getWanAndroidRequest<List<WordDTO>>("wxarticle/chapters/json")
-                    .setConvertType(object : TypeToken<List<WordDTO>>() {}.type)
-                    .cacheStrategy(NET_CACHE)
-                    .cacheKey("12345")
-                    .enqueue()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        Toast.makeText(context, "${it.size}      ${it.get(0).name}", Toast.LENGTH_SHORT).show()
-                    }, {
-                        it.printStackTrace()
-                    })
+            viewModel.loadFeeds()
+            HttpClient.getPPJokeRequest<FeedEntity>("feeds/queryHotFeedsList")
+                .addQuery("feedId", 0)
+                .addQuery("feedType", "video")
+                .addQuery("pageCount", 10)
+                .setConvertType(typeToken<FeedEntity>())
+                .enqueue()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d("getPPJokeRequestTAG", "initView: ")
+                }, {
+                    it.printStackTrace()
+                })
         }
     }
 

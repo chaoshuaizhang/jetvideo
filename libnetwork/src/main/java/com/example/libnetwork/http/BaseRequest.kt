@@ -7,6 +7,9 @@ import com.example.libnetwork.CacheManager
 import com.example.libnetwork.db.CacheDatabase
 import com.example.libnetwork.db.entity.Cache
 import com.example.libnetwork.util.UrlCreator
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
 import io.reactivex.rxjava3.core.Single
@@ -209,7 +212,7 @@ abstract class BaseRequest<T, R>(val url: String) {
         }
         result?.let {
             cacheResponse(it)
-            Single.just(it)
+            return Single.just(it)
         }
         return Single.error(Exception("未设置解析器"))
     }

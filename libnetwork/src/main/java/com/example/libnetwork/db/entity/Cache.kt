@@ -3,12 +3,14 @@ package com.example.libnetwork.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.util.*
 
 @Entity(tableName = "cache")
 data class Cache(
     @PrimaryKey val key: String,
     val data: ByteArray,
-    val nameStr: String = "1122", val nameLong: Long = 12345
+    val nameStr: String = "1122", val nameLong: Long = 12345,
+    val date: Date
 ) : Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -20,6 +22,7 @@ data class Cache(
         if (!data.contentEquals(other.data)) return false
         if (nameStr != other.nameStr) return false
         if (nameLong != other.nameLong) return false
+        if (date != other.date) return false
 
         return true
     }
@@ -29,6 +32,8 @@ data class Cache(
         result = 31 * result + data.contentHashCode()
         result = 31 * result + nameStr.hashCode()
         result = 31 * result + nameLong.hashCode()
+        result = 31 * result + date.hashCode()
         return result
     }
+
 }

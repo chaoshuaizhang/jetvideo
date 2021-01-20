@@ -1,4 +1,4 @@
-package com.example.jetvideo.data.model
+package com.example.jetvideo.data.repository
 
 /*
 * repository是按照模块儿分类 还是 功能分类

@@ -1,6 +1,7 @@
-package com.example.jetvideo
+package com.example.jetvideo.ui
 
 import androidx.navigation.fragment.NavHostFragment
+import com.example.jetvideo.R
 import com.example.jetvideo.ui.base.BaseViewBindingActivity
 import com.example.jetvideo.databinding.ActivityMainBinding
 import com.example.jetvideo.util.HideShowFragNavigator
@@ -21,9 +22,6 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
             }
             true
         }
-    }
-
-    override fun initData() {
     }
 
 }

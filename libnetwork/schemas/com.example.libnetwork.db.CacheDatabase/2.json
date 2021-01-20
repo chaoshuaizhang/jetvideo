@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "b5ec262a22a00781d281a6a5a187b017",
+    "version": 2,
+    "identityHash": "cc977c646da46576283d271cbef0a3f0",
     "entities": [
       {
         "tableName": "cache",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `data` BLOB NOT NULL, `nameStr` TEXT NOT NULL, `nameLong` INTEGER NOT NULL, `date` INTEGER NOT NULL, PRIMARY KEY(`key`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `data` BLOB NOT NULL, `nameStr` TEXT NOT NULL, `nameLong` INTEGER NOT NULL, `date` INTEGER NOT NULL, `wordDTO` TEXT, PRIMARY KEY(`key`))",
         "fields": [
           {
             "fieldPath": "key",
@@ -37,6 +37,12 @@
             "columnName": "date",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "wordDTO",
+            "columnName": "wordDTO",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -52,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b5ec262a22a00781d281a6a5a187b017')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cc977c646da46576283d271cbef0a3f0')"
     ]
   }
 }

@@ -1,16 +1,22 @@
 package com.example.libnetwork
 
 import androidx.room.TypeConverter
-import com.example.libnetwork.db.CacheDatabase
 
 class LongStrConverter {
     @TypeConverter
-    fun fromTimestamp(value: Long?): String? {
-        return value?.let { it.toString() }
+    fun fromLong2Str(value: Long?): String? {
+        value?.let {
+            if(it == 88888L)return "bbbbb"
+        }
+        return "nnnnn"
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: String?): Long? {
-        return date?.toLong()
+    fun fromStr2Long(date: String?): Long? {
+        date?.let {
+            if (it == "qwert") return 66666
+        }
+        return 99999
+
     }
 }

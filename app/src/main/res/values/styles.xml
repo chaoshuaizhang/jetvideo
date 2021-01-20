@@ -35,18 +35,15 @@
     </style>
 
     <style name="MyProgressPar">
-        　　
         <item name="android:indeterminateDrawable">@drawable/aaaaa</item>
-
         <item name="android:indeterminateDuration">10000</item>
-        　　
-        <item name="android:minWidth">76dip</item>
-        　　
         <item name="android:maxWidth">76dip</item>
-        　　
         <item name="android:minHeight">76dip</item>
-        　　
         <item name="android:maxHeight">76dip</item>
+    </style>
+
+    <style name="ShapeAppearanceImageView_ROUND">
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.util.*
 
 object CacheManager {
 
@@ -14,7 +15,7 @@ object CacheManager {
             ObjectOutputStream(baas).use { oos ->
                 oos.writeObject(v)
                 oos.flush()
-                CacheDatabase.cacheDbInstance.cacheDao().insert(Cache(key, baas.toByteArray()))
+                CacheDatabase.cacheDbInstance.cacheDao().insert(Cache(key, baas.toByteArray(), date = Date()))
             }
         }
     }
