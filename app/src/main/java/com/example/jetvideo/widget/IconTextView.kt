@@ -15,7 +15,9 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
     : LinearLayout(context, attrs, defStyle) {
 
     var iconRes = 0
+    var iconUrl: String? = null
     var tvRes = 0
+    var tvStr: String? = null
     var iconPadding = 0
     var ivLayout = 0
     lateinit var icon: ImageView
@@ -24,7 +26,9 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
     init {
         val styleRes = context.obtainStyledAttributes(attrs, R.styleable.IconTextView)
         iconRes = styleRes.getResourceId(R.styleable.IconTextView_icon, 0)
+        iconUrl = styleRes.getString(R.styleable.IconTextView_iconUrl)
         tvRes = styleRes.getResourceId(R.styleable.IconTextView_text, 0)
+        tvStr = styleRes.getString(R.styleable.IconTextView_text)
         iconPadding = styleRes.getDimensionPixelOffset(R.styleable.IconTextView_iconPadding, 5)
         ivLayout = styleRes.getInteger(R.styleable.IconTextView_ivlayout, 1)
         styleRes.recycle()

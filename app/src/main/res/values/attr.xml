@@ -15,7 +15,10 @@
     <declare-styleable name="IconTextView">
         <attr name="iconPadding" format="dimension" />
         <attr name="icon" format="reference" />
+        <attr name="iconUrl" format="string" />
         <attr name="text" format="reference" />
+        <attr name="textStr" format="string" />
+        <attr name="textSize" format="dimension" />
         <attr name="ivlayout" format="flags">
             <flag name="tv_rtl" value="1" />
             <flag name="tv_ltr" value="2" />
