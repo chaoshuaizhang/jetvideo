@@ -11,4 +11,17 @@
         <attr name="fabCradleVerticalOffset" format="dimension" />
         <attr name="fabCradleSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="IconTextView">
+        <attr name="iconPadding" format="dimension" />
+        <attr name="icon" format="reference" />
+        <attr name="text" format="reference" />
+        <attr name="ivlayout" format="flags">
+            <flag name="tv_rtl" value="1" />
+            <flag name="tv_ltr" value="2" />
+            <flag name="tv_ttb" value="3" />
+            <flag name="tv_btt" value="4" />
+        </attr>
+    </declare-styleable>
+
 </resources>

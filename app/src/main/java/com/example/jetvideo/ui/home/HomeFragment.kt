@@ -1,7 +1,10 @@
 package com.example.jetvideo.ui.home
 
+import android.content.Context
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -69,5 +72,15 @@ class HomeFragment : BaseDataBindingFrag<FragHomeBinding>() {
 
     override fun initData() {
 
+    }
+}
+
+class MyTv(context: Context) : AppCompatTextView(context){
+    override fun getCompoundDrawablePadding(): Int {
+        return super.getCompoundDrawablePadding()
+    }
+
+    override fun getCompoundPaddingBottom(): Int {
+        return super.getCompoundPaddingBottom()
     }
 }

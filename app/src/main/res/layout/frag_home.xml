@@ -17,11 +17,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <com.example.jetvideo.widget.IconTextView
+            android:id="@+id/tag_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            app:icon="@drawable/ic_tag_like"
+            app:iconPadding="@dimen/dp_50"
+            app:ivlayout="tv_rtl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@string/title_mine"
+            tools:text="标签" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/my_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{feed.feeds_text}"
+            android:background="@color/colorAccent111"
+            android:clickable="true"
+            android:drawableStart="@mipmap/ic_launcher"
+            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawablePadding="@dimen/dp_10"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="哈哈哈哈哈哈哈"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +51,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
