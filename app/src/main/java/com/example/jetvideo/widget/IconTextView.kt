@@ -1,14 +1,13 @@
 package com.example.jetvideo.widget
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import coil.load
 import com.example.jetvideo.R
 
 /*
@@ -86,10 +85,12 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
         addView(textView)
     }
 
-    @BindingAdapter("iconTvUrl")
-    fun setIconTvUrl(img: ImageView, url: String) {
-        img.load(url) {
-        }
+    companion object {
+
     }
 
+}
+@BindingAdapter("iconTvUrl")
+fun setIconTvUrl(img: IconTextView, url: String?) {
+    Log.d("setIconTvUrlTAG", "setIconTvUrl: $url")
 }
