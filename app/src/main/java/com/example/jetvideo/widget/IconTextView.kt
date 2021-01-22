@@ -1,15 +1,18 @@
 package com.example.jetvideo.widget
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import coil.load
 import com.example.jetvideo.R
 
 /*
-*
+* 只支持图文混排，单独的文字、图片不支持
 * */
 class IconTextView @JvmOverloads constructor(context: Context, val attrs: AttributeSet? = null, defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
@@ -43,7 +46,7 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
         * name="tv_ttb" value="3"
         * name="tv_btt" value="4"
         * */
-        if (iconRes != 0 && tvRes != 0) {
+        if ((iconRes != 0 || iconUrl != null) && (tvRes != 0 || tvStr != null)) {
             icon = ImageView(context, attrs)
             text = TextView(context, attrs)
             val marginParams = MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
@@ -71,15 +74,22 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
     }
 
 
-    fun addIcon(img: ImageView) {
-        img.setImageResource(iconRes)
+    private fun addIcon(img: ImageView) {
+        if (iconRes != 0) img.setImageResource(iconRes)
         addView(img)
     }
 
-    fun addTextView(textView: TextView) {
-        textView.setText(tvRes)
+    private fun addTextView(textView: TextView) {
+        if (tvRes != 0) textView.setText(tvRes)
+        else textView.text = tvStr
         textView.includeFontPadding = false
         addView(textView)
+    }
+
+    @BindingAdapter("iconTvUrl")
+    fun setIconTvUrl(img: ImageView, url: String) {
+        img.load(url) {
+        }
     }
 
 }

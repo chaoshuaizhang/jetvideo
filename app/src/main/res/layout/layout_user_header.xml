@@ -38,7 +38,7 @@
             tools:srcCompat="@mipmap/ic_launcher" />
 
         <include
-            layout="@layout/layout_header_tmp"
+            layout="@layout/layout_user_header_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:author="@{author}"

@@ -27,12 +27,16 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
-    viewBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
+//    viewBinding {
+//        enabled = true
+//    }
     lintOptions {
         abortOnError false
     }
@@ -60,6 +64,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0-alpha2'
-
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
 }
