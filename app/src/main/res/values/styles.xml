@@ -6,10 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:forceDarkAllowed">true</item>
+        <item name="chipStyle">@style/ChipStyle</item>
     </style>
 
     <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="ChipStyle" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:paddingLeft">0dp</item>
         <item name="android:paddingRight">0dp</item>
         <item name="android:paddingBottom">0dp</item>
@@ -44,6 +57,7 @@
 
     <style name="ShapeAppearanceImageView_ROUND">
         <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
     </style>
 
 </resources>

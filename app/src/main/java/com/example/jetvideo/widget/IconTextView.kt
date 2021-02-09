@@ -1,6 +1,8 @@
 package com.example.jetvideo.widget
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
@@ -8,7 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import coil.load
 import com.example.jetvideo.R
+import com.example.libcommon.util.dp
+import com.example.libcommon.util.sp
 
 /*
 * 只支持图文混排，单独的文字、图片不支持
@@ -16,10 +21,14 @@ import com.example.jetvideo.R
 class IconTextView @JvmOverloads constructor(context: Context, val attrs: AttributeSet? = null, defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
+    lateinit var imageView: ImageView
     var iconRes = 0
     var iconUrl: String? = null
     var tvRes = 0
     var tvStr: String? = null
+    var textSize = 0
+    var iconWidth = -1
+    var iconHeight = -1
     var iconPadding = 0
     var ivLayout = 0
     lateinit var icon: ImageView
@@ -29,8 +38,11 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
         val styleRes = context.obtainStyledAttributes(attrs, R.styleable.IconTextView)
         iconRes = styleRes.getResourceId(R.styleable.IconTextView_icon, 0)
         iconUrl = styleRes.getString(R.styleable.IconTextView_iconUrl)
-        tvRes = styleRes.getResourceId(R.styleable.IconTextView_text, 0)
-        tvStr = styleRes.getString(R.styleable.IconTextView_text)
+        tvRes = styleRes.getResourceId(R.styleable.IconTextView_textRes, 0)
+        tvStr = styleRes.getString(R.styleable.IconTextView_textStr)
+        textSize = styleRes.getDimensionPixelOffset(R.styleable.IconTextView_textSize, -1)
+        iconWidth = styleRes.getDimensionPixelOffset(R.styleable.IconTextView_iconWidth, -1)
+        iconHeight = styleRes.getDimensionPixelOffset(R.styleable.IconTextView_iconHeight, -1)
         iconPadding = styleRes.getDimensionPixelOffset(R.styleable.IconTextView_iconPadding, 5)
         ivLayout = styleRes.getInteger(R.styleable.IconTextView_ivlayout, 1)
         styleRes.recycle()
@@ -75,22 +87,34 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
 
     private fun addIcon(img: ImageView) {
         if (iconRes != 0) img.setImageResource(iconRes)
-        addView(img)
+        imageView = img
+        if (iconWidth > 0 && iconHeight > 0) {
+            imageView.layoutParams.width = iconWidth.dp
+            imageView.layoutParams.height = iconHeight.dp
+        }
+        addView(imageView)
     }
 
     private fun addTextView(textView: TextView) {
         if (tvRes != 0) textView.setText(tvRes)
         else textView.text = tvStr
+        if (textSize > 0) {
+            textView.textSize = textSize.sp
+        }
         textView.includeFontPadding = false
         addView(textView)
     }
 
-    companion object {
-
+    fun setTextStr(str: String) {
+        text.text = str
     }
 
-}
-@BindingAdapter("iconTvUrl")
-fun setIconTvUrl(img: IconTextView, url: String?) {
-    Log.d("setIconTvUrlTAG", "setIconTvUrl: $url")
+    fun setTextColor(color: Int) {
+        text.setTextColor(color)
+    }
+
+    fun setIcon(resId: Drawable) {
+        imageView.setImageDrawable(resId)
+    }
+
 }

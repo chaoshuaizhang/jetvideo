@@ -16,9 +16,13 @@
         <attr name="iconPadding" format="dimension" />
         <attr name="icon" format="reference" />
         <attr name="iconUrl" format="string" />
-        <attr name="text" format="reference" />
+        <!--这个没什么用，可以直接用textStr接受res类型的参数-->
+        <attr name="textRes" format="reference" />
         <attr name="textStr" format="string" />
+        <attr name="textColor" format="color" />
         <attr name="textSize" format="dimension" />
+        <attr name="iconWidth" format="dimension" />
+        <attr name="iconHeight" format="dimension" />
         <attr name="ivlayout" format="flags">
             <flag name="tv_rtl" value="1" />
             <flag name="tv_ltr" value="2" />

@@ -75,3 +75,28 @@ attrs.getDimensionPixelOffset(R.styleable.BottomWithFloatingNavView_fabCradleMar
 
 ## 封装
 
+
+style="@style/Widget.MaterialComponents.Chip.Action"
+// 上述使用的style，可以在中看到
+<style name="Widget.MaterialComponents.Chip.Action" parent="Base.Widget.MaterialComponents.Chip">
+    <item name="closeIconVisible">false</item>
+</style>
+
+databinding使用的坑：
+自定义的view通过binding设置属性时，需要给设置一个对应的set方法，否则你在init方法里设置了typedarray，
+但是网络加载完成后，没办法再给对应的自定义view设置属性了，参照IconTextView中的：
+```
+fun setTextStr(str: String) {
+    text.text = str
+}
+
+// 在布局中设置的是 resid类型，但是对应的set方法要设置参数为Drawable类型的方法
+fun setIcon(resId: Drawable) {
+    imageView.setImageDrawable(resId)
+}
+```
+
+用原生而不用Databinding进行数据并绑定的原因是：
+图片和视频区域都是需要计算的，dataBinding的执行默认是延迟一帧的。
+当列表上下滑动的时候 ，会明显的看到宽高尺寸不对称的问题
+

@@ -19,6 +19,8 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
             when (item.itemId) {
                 R.id.homeFragment -> navController.navigate(R.id.homeFragment)
                 R.id.navigation_soft -> navController.navigate(R.id.softFragment)
+                R.id.navigation_find -> navController.navigate(R.id.findFragment)
+                R.id.navigation_mine -> navController.navigate(R.id.ownerFragment)
             }
             true
         }
