@@ -22,7 +22,7 @@ import kotlin.math.min
 class PlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ConstraintLayout(context, attrs, defStyle) {
 
-    private lateinit var videoUrl: String
+    private var videoUrl: String? = null
 
     // 对应不同的页面
     private lateinit var category: String
@@ -77,7 +77,7 @@ class PlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     * 进行数据绑定，不用Databinding，用原生的方式
     * */
     // TODO: 2021/2/1/001 每个页面都有视频播放，所以需要player与页面关联起来，设置一个category参数
-    fun bindData(wPx: Int, hPx: Int, coverUrl: String, videoUrl: String, category: String) {
+    fun bindData(wPx: Int, hPx: Int, coverUrl: String?, videoUrl: String?, category: String) {
         this.videoUrl = videoUrl
         this.category = category
         bindImageView(imgCover, coverUrl)

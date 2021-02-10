@@ -18,42 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.jetvideo.widget.IconTextView
-            android:id="@+id/tag_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            app:icon="@drawable/ic_tag_like"
-            app:iconPadding="@dimen/dp_50"
-            app:iconTvUrl="@{feed.author.avatar}"
-            app:ivlayout="tv_rtl"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:textStr="@string/title_mine"
-            tools:text="标签" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/my_button"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent111"
-            android:clickable="true"
-            android:drawableStart="@mipmap/ic_launcher"
-            android:drawableLeft="@mipmap/ic_launcher"
-            android:drawablePadding="@dimen/dp_10"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="哈哈哈哈哈哈哈"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tag_like" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
+            android:layout_height="@dimen/dp_56"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.jetvideo.widget.WrapperRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

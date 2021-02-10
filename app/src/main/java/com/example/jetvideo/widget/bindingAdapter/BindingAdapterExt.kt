@@ -30,7 +30,7 @@ fun setIconTvUrl(img: IconTextView, url: String?) {
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 @BindingAdapter("blurUrl", "radius")
-fun setBlurView(view: ImageView, blurUrl: String, radius: Float) {
+fun setBlurView(view: ImageView, blurUrl: String?, radius: Float) {
     view.load(blurUrl) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             transformations(BlurTransformation(view.context, radius))

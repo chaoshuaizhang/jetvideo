@@ -1,56 +1,39 @@
 package com.example.jetvideo.ui.base
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jetvideo.databinding.LayoutRefreshLoadBinding
 import com.example.jetvideo.widget.IMoreStatusAdapter
-import com.example.jetvideo.widget.MoreStatusRecyclerView
+import com.example.jetvideo.widget.WrapperRefreshLayout
+import com.example.libcommon.util.ext.toast
 
-abstract class AbsListFragment<T> : BaseDataBindingFrag<LayoutRefreshLoadBinding>() {
+typealias RecVH = RecyclerView.ViewHolder
 
-    lateinit var mAdapter: PagedListAdapter<T, RecyclerView.ViewHolder>
+abstract class AbsListFragment<T, VH : RecVH, VDB : ViewDataBinding> : BaseDataBindingFrag<VDB>() {
 
-    override fun getDataBinding(inflater: LayoutInflater?, container: ViewGroup?): LayoutRefreshLoadBinding {
-        return context?.let {
-            DataBindingUtil.getBinding(MoreStatusRecyclerView(it))
-        } ?: throw Exception()
+    lateinit var contentView: WrapperRefreshLayout
+    private val mAdapter by lazy {
+        getPagedAdapter()
     }
+    private val status = MutableLiveData<IMoreStatusAdapter.Status>()
 
-    override fun initView() {
-        binding.smartRefreshLayout.apply {
-            // 是否支持加载、刷新
-            val loadRefresh = supportLoadRefresh()
-            setEnableLoadMore(loadRefresh.first)
-            setEnableRefresh(loadRefresh.second)
-            setOnRefreshListener {
-                refresh()
+    override fun initData() {
+        status.observe(this, {
+            when (it) {
+                IMoreStatusAdapter.Status.NORMAL -> {
+                    contentView.hideEmptyView()
+                }
+                IMoreStatusAdapter.Status.EMPTY -> {
+                    contentView.showEmptyView()
+                }
+                IMoreStatusAdapter.Status.LOAD_EMPTY -> {
+                    contentView.hideEmptyView()
+                }
+                else -> throw Exception("Can not support the status [$it]")
             }
-            setOnLoadMoreListener { loadMore() }
-        }
-        val m = (binding.root as MoreStatusRecyclerView)
-        mAdapter = getAAAdapter()
-        m.addIAdapter(requireContext(), object : IMoreStatusAdapter<T, RecyclerView.ViewHolder> {
-            override fun getAdapter(): PagedListAdapter<T, RecyclerView.ViewHolder> {
-                return mAdapter
-            }
-
-            override fun showEmptyView() {
-                m.emptyView?.isVisible = true
-            }
-
-            override fun showNetErrorView() {
-                TODO("Not yet implemented")
-            }
-
-            override fun showContentView() {
-                TODO("Not yet implemented")
-            }
-
         })
     }
 
@@ -58,16 +41,28 @@ abstract class AbsListFragment<T> : BaseDataBindingFrag<LayoutRefreshLoadBinding
         if ((list.size > 0).also { finishLoadRefresh(it) }) mAdapter.submitList(list)
     }
 
-    open fun supportLoadRefresh() = Pair(first = true, second = true)
+    abstract fun getPagedAdapter(): PagedListAdapter<T, VH>
 
-    abstract fun <T, VH : RecyclerView.ViewHolder> getAAAdapter(): PagedListAdapter<T, VH>
+    open fun supportLoadRefresh() = Pair(first = true, second = true)
 
     abstract fun loadMore()
 
     abstract fun refresh()
 
     private fun finishLoadRefresh(hasData: Boolean) {
-
+        when {
+            hasData -> {
+                status.value = IMoreStatusAdapter.Status.NORMAL
+            }
+            mAdapter.currentList.isNullOrEmpty() -> {
+                // 没有任何数据
+                status.value = IMoreStatusAdapter.Status.EMPTY
+            }
+            else -> {
+                // 之前有数据，但是新加载的没有数据
+                status.value = IMoreStatusAdapter.Status.LOAD_EMPTY
+            }
+        }
     }
 
 }

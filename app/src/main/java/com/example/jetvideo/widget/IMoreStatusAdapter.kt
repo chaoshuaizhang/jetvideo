@@ -15,23 +15,19 @@ interface IMoreStatusAdapter<T, VH : RecyclerView.ViewHolder> {
             Status.NORMAL -> {
                 showContentView()
             }
-            Status.NET_ERROR -> {
-                showNetErrorView()
-            }
-            Status.RESPONSE_EMPTY -> {
+            Status.EMPTY -> {
                 showEmptyView()
             }
         }
     }
 
     fun showEmptyView()
-    fun showNetErrorView()
     fun showContentView()
 
     enum class Status {
         NORMAL,
-        NET_ERROR,
-        RESPONSE_EMPTY
+        EMPTY,
+        LOAD_EMPTY
     }
 
 }

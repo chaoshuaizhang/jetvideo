@@ -16,7 +16,7 @@ class WrapImageView @JvmOverloads constructor(context: Context, attrs: Attribute
     * w > h 则宽度全撑满，高度自适应
     * h > w 则距离左边有margin，并且h的最大高度为屏幕最大宽度
     * */
-    public fun bindData(width: Int = 0, height: Int = 0, marginLeft: Int = 20.dp, maxWidth: Int = ScreenUtil.w, maxHeight: Int = ScreenUtil.h, url: String) {
+    public fun bindData(width: Int = 0, height: Int = 0, marginLeft: Int = 20.dp, maxWidth: Int = ScreenUtil.w, maxHeight: Int = ScreenUtil.h, url: String?) {
         val request = ImageRequest.Builder(context)
                 .data(url)
                 .target {
