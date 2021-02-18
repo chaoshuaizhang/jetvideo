@@ -2,6 +2,7 @@ package com.example.jetvideo.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -15,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+
 
 @SuppressLint("RestrictedApi")
 class BottomWithFloatingNavView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyle: Int = 0)
@@ -34,7 +36,7 @@ class BottomWithFloatingNavView @JvmOverloads constructor(context: Context, attr
             .setTopEdge(curvedEdgeTreatment)
             .build()
         val materialShapeDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
-            setTint(ContextCompat.getColor(context, R.color.colorAccent111))
+            setTint(ContextCompat.getColor(context, R.color.color_white))
             paintStyle = Paint.Style.FILL_AND_STROKE
         }
         background = materialShapeDrawable

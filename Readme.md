@@ -100,3 +100,22 @@ fun setIcon(resId: Drawable) {
 图片和视频区域都是需要计算的，dataBinding的执行默认是延迟一帧的。
 当列表上下滑动的时候 ，会明显的看到宽高尺寸不对称的问题
 
+MediatorLiveData:
+>这个类和MutableLiveData<T>一样都继承自LiveData<T>. 主要是帮助我们解决这样一种case：我们有
+多个LiveData实例，这些LiveData的value发生变更时都需要通知某一个相同的LiveData。
+
+Transformations.map:
+容器A监听B内容的变化，变化时将B内容转化为相应的内容并通知A监听器
+原理是利用MediatorLiveData的addSource对其他容器内容监听，在Observer中再对MediatorLiveData修改内容为转化了的相应的数据，来通知自己的监听器内容发生变化
+
+
+Transformations.switchMap:
+容器A监听B内容的变化，变化时从B内容获取相应的容器C，添加到A的监听列表里，即现在A同时监听B跟C，而B内容的变化只会(switch)更换A监听列表里的C，C内容的变化才会通知A监听器
+例子1：B为衣服品牌，C为衣服品牌对应的衣服价格，B与C一一对应关系，那么效果就是A监听的是B对应的C(衣服品牌对应的价格)，衣服品牌变化为B2就监听变化了的品牌B2对应的价格C2，而不再监听之前的C1
+例子2：业务上可能存在多个B对应一个C，比如B1,B2都是对应同一个C1，那么B1变成B2，A依然还是监听着C1
+
+setPageSize：每次从dataSource中获取的page的数量，第一次用InitialLoadSizeHint，接下来用这个PageSize
+setInitialLoadSizeHint：初始加载的数量，如果大于接口请求的paggCunt，则会请求多次接口
+setPrefetchDistance：当距离当前加载的数据末尾还有几个元素时，去加载下一页，默认是PageSize，也就是第一次加载了PageSize，
+也就是说，第一次加载了10条，那么默认PrefetchDistance是10，
+

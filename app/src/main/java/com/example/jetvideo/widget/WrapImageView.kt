@@ -3,11 +3,16 @@ package com.example.jetvideo.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.example.jetvideo.util.ScreenUtil
 import com.example.libcommon.util.dp
+import com.example.libcommon.util.ext.logd
+import java.lang.Exception
+import kotlin.math.min
 
 class WrapImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : AppCompatImageView(context, attrs, defStyle) {
@@ -32,17 +37,27 @@ class WrapImageView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     private fun handleDrawableResult(w: Int, h: Int, maxWidth: Int, maxWidth1: Int, marginLeft: Int) {
+        logd("handleDrawableResult   ${tag}")
         val finalW: Int
         val finalH: Int
         if (w >= h) {
             finalW = maxWidth
             finalH = (h / w.toFloat() * finalW).toInt()
         } else {
-            finalH = maxHeight
+            // FIXME: 2021/2/15/015 FUCK
+            finalH = min(maxWidth, h)
             finalW = (w / h.toFloat() * finalH).toInt()
         }
-        val params = ViewGroup.MarginLayoutParams(finalW, finalH)
-        if (h > w) params.leftMargin = marginLeft
-        layoutParams = params
+        try {
+            layoutParams.width = finalW
+            layoutParams.height = finalH
+            if (h > w) {
+                (layoutParams as ConstraintLayout.LayoutParams).leftMargin = marginLeft
+            }else{
+                (layoutParams as ConstraintLayout.LayoutParams).leftMargin = 0
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

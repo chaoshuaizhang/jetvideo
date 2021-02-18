@@ -70,7 +70,7 @@ class PlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             imgBlur.layoutParams.resetParams(params.width, params.height)
         }
         // 当前View
-        layoutParams = params
+        layoutParams.resetParams(params.width, params.height)
     }
 
     /*
@@ -81,7 +81,7 @@ class PlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.videoUrl = videoUrl
         this.category = category
         bindImageView(imgCover, coverUrl)
-        if ((wPx > hPx).also { imgBlur.isVisible = it }) {
+        if ((wPx < hPx).also { imgBlur.isVisible = it }) {
             // 宽度小于高度时，设置高斯模糊的背景
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 setBlurView(imgBlur, coverUrl, 10f)

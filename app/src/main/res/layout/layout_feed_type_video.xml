@@ -15,12 +15,12 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <include
+            android:id="@+id/user_header"
             layout="@layout/layout_user_header"
             app:author="@{feed.author}"
             app:feedText="@{feed.feeds_text}" />
@@ -28,12 +28,18 @@
         <com.example.jetvideo.widget.PlayerView
             android:id="@+id/player_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#FF0000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_feed_content" />
 
         <include
             layout="@layout/layout_user_content_operation"
-            app:feedItem="@{feed}" />
+            app:feedItem="@{feed}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_view"
+            />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

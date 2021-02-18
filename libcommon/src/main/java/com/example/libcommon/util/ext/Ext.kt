@@ -31,6 +31,7 @@ inline fun <reified T : Any> Gson.fromJson(resStr: String) {
     fromJson<T>(resStr, object : TypeToken<T>() {}.type)
 }
 
+@Deprecated("无效，泛型T会被擦除")
 fun <T> typeToken() = object : TypeToken<T>() {}.type
 
 fun Double.dp(): Double {

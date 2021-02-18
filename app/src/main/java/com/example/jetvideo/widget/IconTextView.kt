@@ -57,31 +57,29 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
         * name="tv_ttb" value="3"
         * name="tv_btt" value="4"
         * */
-        if ((iconRes != 0 || iconUrl != null) && (tvRes != 0 || tvStr != null)) {
-            icon = ImageView(context, attrs)
-            text = TextView(context, attrs)
-            val marginParams = MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            when (ivLayout) {
-                1 -> {
-                    marginParams.rightMargin = iconPadding
-                    icon.layoutParams = marginParams
-                }
-                2 -> {
-                    marginParams.rightMargin = iconPadding
-                    text.layoutParams = marginParams
-                }
-                3 -> {
-                    marginParams.bottomMargin = iconPadding
-                    text.layoutParams = marginParams
-                }
-                4 -> {
-                    marginParams.bottomMargin = iconPadding
-                    icon.layoutParams = marginParams
-                }
+        icon = ImageView(context, attrs)
+        text = TextView(context, attrs)
+        val marginParams = MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        when (ivLayout) {
+            1 -> {
+                marginParams.rightMargin = iconPadding
+                icon.layoutParams = marginParams
             }
-            addIcon(icon)
-            addTextView(text)
+            2 -> {
+                marginParams.rightMargin = iconPadding
+                text.layoutParams = marginParams
+            }
+            3 -> {
+                marginParams.bottomMargin = iconPadding
+                text.layoutParams = marginParams
+            }
+            4 -> {
+                marginParams.bottomMargin = iconPadding
+                icon.layoutParams = marginParams
+            }
         }
+        addIcon(icon)
+        addTextView(text)
     }
 
 
@@ -99,7 +97,7 @@ class IconTextView @JvmOverloads constructor(context: Context, val attrs: Attrib
         if (tvRes != 0) textView.setText(tvRes)
         else textView.text = tvStr
         if (textSize > 0) {
-            textView.textSize = textSize.sp
+            textView.textSize = textSize.toFloat()
         }
         textView.includeFontPadding = false
         addView(textView)

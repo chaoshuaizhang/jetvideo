@@ -17,7 +17,7 @@ abstract class BaseDataBindingFrag<DB : ViewDataBinding> : BaseFragment() {
     }
 
     /*
-    * 对于Fragment的rootview不是xml布局，而是一个自定义View时，此
+    * 对于Fragment的rootview不是xml布局，而是一个自定义View时，此i
     * */
     open fun getDataBinding(inflater: LayoutInflater? = null, container: ViewGroup? = null): DB {
         inflater ?: throw Exception("inflater can not be null")

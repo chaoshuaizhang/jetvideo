@@ -2,9 +2,11 @@ package com.example.libnetwork.http
 
 import android.util.Log
 import com.alibaba.fastjson.JSONObject
+import com.example.libcommon.util.ext.logd
 import com.example.libcommon.util.measureTime
 import com.example.libnetwork.CacheManager
 import com.example.libnetwork.db.CacheDatabase
+import com.example.libnetwork.db.entity.ApiResponse
 import com.example.libnetwork.db.entity.Cache
 import com.example.libnetwork.util.UrlCreator
 import com.google.gson.Gson
@@ -20,6 +22,7 @@ import java.io.File
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.net.SocketTimeoutException
 
 /*
 * 每个请求都会重新创建一个request，所以这里只存储和当前请求相关的东西
@@ -35,8 +38,8 @@ abstract class BaseRequest<T, R>(val url: String) {
     private var cacheKey: String? = null
 
     // 解析类型
-    lateinit var responseType: Type
-    lateinit var responseClass: Class<T>
+    lateinit var convertType: Type
+    lateinit var convertClass: Class<T>
 
     lateinit var convert: ResponseConvert<T>
 
@@ -107,7 +110,6 @@ abstract class BaseRequest<T, R>(val url: String) {
     /*
     * file 和 field混合post
     * */
-
     fun addRequestBody(builder: Request.Builder) {
         val multipartBody = MultipartBody.Builder().setType(MultipartBody.FORM)
         fields?.forEach {
@@ -119,17 +121,17 @@ abstract class BaseRequest<T, R>(val url: String) {
         builder.post(multipartBody.build())
     }
 
-    fun setConvert(c: ResponseConvert<T>) = apply { convert = c }
+    fun setConvertCallback(c: ResponseConvert<T>) = apply { convert = c }
 
     /*
     * 解析非泛型类型的数据
     * */
-    fun setConvertType(clazz: Class<T>) = apply { responseClass = clazz }
+    fun setConvertType(clazz: Class<T>) = apply { convertClass = clazz }
 
     /*
     * 解析泛型类型数据：List<XXX>
     * */
-    fun setConvertType(type: Type) = apply { responseType = type }
+    fun setConvertType(type: Type) = apply { convertType = type }
 
     fun cacheStrategy(strategy: @CacheStrategy Int) = apply { cacheStrategy = strategy }
 
@@ -144,14 +146,13 @@ abstract class BaseRequest<T, R>(val url: String) {
     * 注意：即使是异步，回调还是在子线程
     * */
     private fun enqueue(emitter: ObservableEmitter<T>) {
-        // TODO: 2021/1/19/019 这块儿缓存相关的放在这里不合适，需要单独抽出来
-        cacheKey?.let {
-            CacheManager.queryCache<T>(it)?.let { result ->
+        if (cacheStrategy == CACHE_ONLY)
+            CacheManager.queryCache<T>(cacheKey)?.let { result ->
                 Log.d("TAGCacheManager", "enqueue: $result")
                 emitter.onNext(result)
-                return
+                emitter.onComplete()
             }
-        }
+
         getCall().enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 emitter.onError(e)
@@ -159,11 +160,10 @@ abstract class BaseRequest<T, R>(val url: String) {
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d("onResponseTAG", "onResponse: ${Thread.currentThread().name}")
-                parseResponse(response).subscribe({
+                parseResponse(response).let {
+                    if (cacheStrategy != NET_ONLY) CacheManager.cache(cacheKey, it)
                     emitter.onNext(it)
-                }, {
-                    emitter.onError(it)
-                })
+                }
             }
         })
     }
@@ -172,49 +172,73 @@ abstract class BaseRequest<T, R>(val url: String) {
     * 异步方式，通过回调接口的形式
     * */
     fun enqueue(cb: ResponseCallback<T>) {
+        if (cacheStrategy == CACHE_ONLY)
+            CacheManager.queryCache<T>(cacheKey)?.let { result ->
+                Log.d("TAGCacheManager", "enqueue: $result")
+                cb.onSuccess(result)
+                return
+            }
         getCall().enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 cb.onError(e)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val parameterizedType = cb.javaClass.genericSuperclass as ParameterizedType
-                val type = parameterizedType.actualTypeArguments[0]
-                val result = JSONObject.parseObject(response.body?.string(), type) as T
+//                val parameterizedType = cb.javaClass.genericSuperclass as ParameterizedType
+//                val type = parameterizedType.actualTypeArguments[0]
+//                val result = JSONObject.parseObject(response.body?.string(), type) as T
+                val result = parseResponse(response)
+                if (cacheStrategy != NET_ONLY) CacheManager.cache(cacheKey, result)
                 cb.onSuccess(result)
             }
         })
     }
 
-    private fun parseResponse(response: Response): Single<T> {
-        var result: T? = null
-        if (response.isSuccessful) {
-            measureTime {
-                response.body?.let { body ->
-                    // TODO: 2021/1/19/019 这块儿的逻辑是否可以下沉，放在这有可能不符合开闭原则
-                    when {
-                        ::convert.isInitialized -> {
-                            result = convert.convert(body.string())
-                        }
-                        ::responseType.isInitialized -> {
-                            result = JsonConvert.convert(body.string(), responseType) as T
-                        }
-                        ::responseClass.isInitialized -> {
-                            result = JsonConvert.convert(body.string(), responseClass)
-                        }
+    /*
+    * 同步请求，直接获得请求结果
+    * */
+    fun execute(): ApiResponse<T> {
+        if (::convertType.isInitialized || ::convert.isInitialized) {
+            try {
+                if (cacheStrategy == CACHE_ONLY) {
+                    CacheManager.queryCache<T>(cacheKey ?: autoGenerateCacheKey())?.let { result ->
+                        return ApiResponse(304, true, null, result)
                     }
                 }
-            }.let {
-                Log.d("getRequestWithCb", "parseResponse解析 + 渲染时间 : $it")
+                val result = parseResponse(getCall().execute())
+                if (cacheStrategy != NET_ONLY) {
+                    // 只要不是NET_ONLY，统一对结果进行缓存
+                    CacheManager.cache(cacheKey ?: autoGenerateCacheKey(), result)
+                }
+                return ApiResponse(200, true, null, result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return ApiResponse(400, false, e.message, null)
             }
         } else {
-            return Single.error(Exception("response 失败"))
+            return ApiResponse(400, false, "未设置解析器", null)
         }
-        result?.let {
-            cacheResponse(it)
-            return Single.just(it)
+    }
+
+    private fun parseResponse(response: Response): T {
+        if (response.isSuccessful) {
+            response.body?.let { body ->
+                // TODO: 2021/1/19/019 这块儿的逻辑是否可以下沉，放在这有可能不符合开闭原则
+                return when {
+                    ::convert.isInitialized -> {
+                        convert.convert(body.string())
+                    }
+                    ::convertType.isInitialized -> {
+                        JsonConvert.convert(body.string(), convertType) as T
+                    }
+                    ::convertClass.isInitialized -> {
+                        JsonConvert.convert(body.string(), convertClass)
+                    }
+                    else -> throw Exception("未设置解析器")
+                }
+            }
         }
-        return Single.error(Exception("未设置解析器"))
+        throw Exception("response 失败")
     }
 
     private fun cacheResponse(result: T) {

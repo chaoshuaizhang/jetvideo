@@ -3,6 +3,7 @@ package com.example.jetvideo.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +21,8 @@ class FeedAdapter(context: Context, val pageTag: String) : PagedListAdapter<Feed
     private val inflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        TYPE_IMG -> FeedVH(LayoutFeedTypeImageBinding.inflate(inflater))
-        TYPE_VIDEO -> FeedVH(LayoutFeedTypeVideoBinding.inflate(inflater))
+        TYPE_IMG -> FeedVH(LayoutFeedTypeImageBinding.inflate(inflater, parent, false))
+        TYPE_VIDEO -> FeedVH(LayoutFeedTypeVideoBinding.inflate(inflater, parent, false))
         else -> throw Exception("can not parse the type [$viewType]")
     }
 
@@ -39,9 +40,12 @@ class FeedAdapter(context: Context, val pageTag: String) : PagedListAdapter<Feed
             when (binding) {
                 is LayoutFeedTypeImageBinding -> {
                     binding.feed = entity
-                    binding.imageContent.bindData(
-                            entity.width ?: 0, entity.height ?: 0,
-                            url = entity.cover)
+                    if ((entity.cover != null).also { binding.playerView.isVisible = true }) {
+                        binding.playerView.tag = entity.createTime
+                        binding.playerView.bindData(
+                                entity.width ?: 0, entity.height ?: 0,
+                                url = entity.cover)
+                    }
                 }
                 is LayoutFeedTypeVideoBinding -> {
                     binding.feed = entity
