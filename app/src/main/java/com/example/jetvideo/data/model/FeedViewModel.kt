@@ -1,6 +1,9 @@
 package com.example.jetvideo.data.model
 
+import android.annotation.SuppressLint
+import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.util.Function
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.ItemKeyedDataSource
@@ -10,15 +13,46 @@ import com.example.jetvideo.data.repository.MyDataSource
 import com.example.jetvideo.data.repository.PagedViewModel
 import com.example.jetvideo.dto.FeedItemEntity
 import com.example.libcommon.util.ext.logd
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class FeedViewModel @Inject constructor(val feedRepository: FeedRepository)
     : PagedViewModel<Int, FeedItemEntity>(0) {
 
     val feedsCache = Transformations.map(feedRepository.feedsCache) { input -> // 输入的是List，输出的是PagedList
         MyDataSource<Int, FeedItemEntity>(input)
-                .buildPagedList(config)
+            .buildPagedList(config)
+    }
 
+    var feedsLoadMore = MutableLiveData<PagedList<FeedItemEntity>>()
+
+    @SuppressLint("RestrictedApi")
+    suspend fun loadMore(key: Int): PagedList<FeedItemEntity> {
+/*        flow {
+            val more = feedRepository.loadFeeds(feedId = key)
+            if (more.isNotEmpty()) {
+                emit(more)
+            }
+        }.collect {
+            MyDataSource<Int, FeedItemEntity>(it).buildPagedList(config)
+        }*/
+/*        Single.create<List<FeedItemEntity>> {
+            val more = feedRepository.loadFeeds(feedId = key)
+            if (more.isNotEmpty()) {
+                it.onSuccess(more)
+                Thread.currentThread()
+            }
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { loadedFeeds ->
+
+            }*/
     }
 
     inner class FeedDataSource : ItemKeyedDataSource<Int, FeedItemEntity>() {
@@ -36,7 +70,7 @@ class FeedViewModel @Inject constructor(val feedRepository: FeedRepository)
 
         override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<FeedItemEntity>) {
             logd("loadAfter   ${params.key}   ${Thread.currentThread().name}")
-            callback.onResult(feedRepository.loadFeeds(feedId = params.key))
+            // callback.onResult(feedRepository.loadFeeds(feedId = params.key))
         }
 
         override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<FeedItemEntity>) {

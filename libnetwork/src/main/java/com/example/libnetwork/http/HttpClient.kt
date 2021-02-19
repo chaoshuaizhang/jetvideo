@@ -11,7 +11,7 @@ class HttpClient {
 
     companion object {
 
-        private const val PPJoke = "http://192.168.2.103:8080/serverdemo/"
+        private const val PPJoke = "http://10.234.1.141:8080/serverdemo/"
 
         val INSTANCE by lazy {
             OkHttpClient.Builder()

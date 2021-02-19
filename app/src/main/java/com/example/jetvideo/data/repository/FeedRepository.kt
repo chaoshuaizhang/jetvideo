@@ -33,7 +33,7 @@ class FeedRepository @Inject constructor() {
                 .addQuery("feedId", feedId)
                 .addQuery("userId", 0)
                 .addQuery("feedType", "all")
-                .addQuery("pageCount", 3)
+                .addQuery("pageCount", 1)
                 .setConvertType(object : TypeToken<FeedEntity>() {}.type)
         if (withCache) {
             request.cacheStrategy(CACHE_ONLY).execute().let {

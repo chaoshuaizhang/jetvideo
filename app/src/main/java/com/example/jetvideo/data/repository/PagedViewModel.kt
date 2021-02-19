@@ -13,8 +13,8 @@ abstract class PagedViewModel<K, V>(key: K) : BaseViewModel() {
 
     protected val config: PagedList.Config = PagedList
             .Config.Builder()
-            .setPageSize(10)
-            .setInitialLoadSizeHint(12)
+            .setPageSize(1)
+            .setInitialLoadSizeHint(2)
             .build()
 
     lateinit var dataSource: DataSource<K, V>

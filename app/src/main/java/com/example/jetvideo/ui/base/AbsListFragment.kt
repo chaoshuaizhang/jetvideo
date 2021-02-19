@@ -22,7 +22,7 @@ abstract class AbsListFragment<T, VH : RecVH, VDB : ViewDataBinding>
             refreshLayout.setOnRefreshLoadMoreListener(this@AbsListFragment)
         }
     }
-    private val mAdapter by lazy {
+    protected val mAdapter by lazy {
         getPagedAdapter().apply {
             contentView.setAdapter(this)
         }
