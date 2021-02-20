@@ -147,7 +147,7 @@
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/god_comment"
-            app:textColor="@{feedItem.ugc.hasLiked ? @color/colorAccent111 : @color/color_2F2F2F}"
+            app:textColor="@{feedItem.ugc.hasLiked ? @color/colorAccent : @color/color_2F2F2F}"
             app:textStr="@{feedItem.ugc.likeCount > 0 ? String.valueOf(feedItem.ugc.likeCount): @string/tag_like}"
             tools:text="@string/tag_like" />
 
@@ -164,6 +164,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@id/tag_like"
             app:layout_constraintTop_toTopOf="@id/tag_like"
+            app:textStr="@{feedItem.ugc.hasDissed ? @string/tag_dislike : String.valueOf(feedItem.ugc.hasLiked)}"
             tools:text="@string/tag_dislike" />
 
         <com.example.jetvideo.widget.IconTextView

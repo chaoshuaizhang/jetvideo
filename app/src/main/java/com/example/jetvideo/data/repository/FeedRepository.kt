@@ -28,13 +28,15 @@ class FeedRepository @Inject constructor() {
 
     val feedsCache = MutableLiveData<List<FeedItemEntity>>()
 
+    val feedsLoadMore = MutableLiveData<List<FeedItemEntity>>()
+
     fun loadFeeds(withCache: Boolean = false, feedId: Int = 0): List<FeedItemEntity> {
         val request = HttpClient.get<FeedEntity>("feeds/queryHotFeedsList")
-                .addQuery("feedId", feedId)
-                .addQuery("userId", 0)
-                .addQuery("feedType", "all")
-                .addQuery("pageCount", 1)
-                .setConvertType(object : TypeToken<FeedEntity>() {}.type)
+            .addQuery("feedId", feedId)
+            .addQuery("userId", 0)
+            .addQuery("feedType", "all")
+            .addQuery("pageCount", 1)
+            .setConvertType(object : TypeToken<FeedEntity>() {}.type)
         if (withCache) {
             request.cacheStrategy(CACHE_ONLY).execute().let {
                 if (it.status == 304) {
@@ -49,7 +51,7 @@ class FeedRepository @Inject constructor() {
         }
         // ==0 说明是第一页数据，需要缓存起来
         request.cacheStrategy(if (feedId == 0) NET_CACHE else NET_ONLY)
-                .execute().data?.data?.let { return it }
+            .execute().data?.data?.let { return it }
         return emptyList()
     }
 

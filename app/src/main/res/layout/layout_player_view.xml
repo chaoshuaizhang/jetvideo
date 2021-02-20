@@ -35,7 +35,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:indeterminate="true"
-        android:indeterminateTint="@color/colorAccent111"
+        android:indeterminateTint="@color/colorAccent"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

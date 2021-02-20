@@ -1,20 +1,18 @@
 package com.example.jetvideo.ui.home
 
+import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.paging.ItemKeyedDataSource
 import com.example.jetvideo.R
 import com.example.jetvideo.adapter.FeedAdapter
 import com.example.jetvideo.adapter.FeedVH
 import com.example.jetvideo.data.model.FeedViewModel
-import com.example.jetvideo.data.repository.MyDataSource
 import com.example.jetvideo.databinding.FragHomeBinding
 import com.example.jetvideo.dto.FeedItemEntity
 import com.example.jetvideo.ui.base.AbsListFragment
 import com.example.jetvideo.widget.WrapperRefreshLayout
 import com.example.libcommon.util.ext.logd
-import com.example.libcommon.util.ext.toast
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,26 +38,21 @@ class HomeFragment : AbsListFragment<FeedItemEntity, FeedVH, FragHomeBinding>() 
         }
         // 加载更多
         viewModel.feedsLoadMore.observe(this) {
-            if (it.size == 0) finishLoadRefresh(false)
-            else {
-                val curList = mAdapter.currentList
-                curList?.addAll(it)
-                curList?.let { l -> submitList(l) }
+            if ((it.size != 0).also { finishLoadRefresh(it) }) {
+                submitList(it)
             }
         }
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        // 清除引用的数据
+        viewModel.feeds.clear()
         viewModel.dataSource.invalidate()
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mAdapter.currentList?.lastOrNull()?.let {
-            runBlocking {
-                viewModel.loadMore(it.id!!).collect {
-                    MyDataSource<Int, FeedItemEntity>().buildPagedList()
-                }
-            }
+        mAdapter.currentList?.lastOrNull()?.let { it ->
+            viewModel.loadMore(it.id!!)
         }
     }
 

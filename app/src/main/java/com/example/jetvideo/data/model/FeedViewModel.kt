@@ -2,8 +2,6 @@ package com.example.jetvideo.data.model
 
 import android.annotation.SuppressLint
 import androidx.arch.core.executor.ArchTaskExecutor
-import androidx.arch.core.util.Function
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.ItemKeyedDataSource
@@ -16,14 +14,12 @@ import com.example.libcommon.util.ext.logd
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class FeedViewModel @Inject constructor(val feedRepository: FeedRepository)
     : PagedViewModel<Int, FeedItemEntity>(0) {
+
+    val feeds = mutableListOf<FeedItemEntity>()
 
     val feedsCache = Transformations.map(feedRepository.feedsCache) { input -> // 输入的是List，输出的是PagedList
         MyDataSource<Int, FeedItemEntity>(input)
@@ -33,26 +29,20 @@ class FeedViewModel @Inject constructor(val feedRepository: FeedRepository)
     var feedsLoadMore = MutableLiveData<PagedList<FeedItemEntity>>()
 
     @SuppressLint("RestrictedApi")
-    suspend fun loadMore(key: Int): PagedList<FeedItemEntity> {
-/*        flow {
-            val more = feedRepository.loadFeeds(feedId = key)
-            if (more.isNotEmpty()) {
-                emit(more)
+    fun loadMore(key: Int) {
+        Single.create<List<FeedItemEntity>> {
+            val newList = (pageList.value?.toList()
+                ?: emptyList<FeedItemEntity>()) + feedRepository.loadFeeds(feedId = key)
+            it.onSuccess(newList)
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe { loadedData ->
+                feeds.clear()
+                feeds.addAll(loadedData)
+                // 置原来的主PagedList无效
+                dataSource.invalidate()
+                // 暂时不用这种方式了
+                // feedsLoadMore.value = MyDataSource<Int, FeedItemEntity>(loadedData).buildPagedList(config)
             }
-        }.collect {
-            MyDataSource<Int, FeedItemEntity>(it).buildPagedList(config)
-        }*/
-/*        Single.create<List<FeedItemEntity>> {
-            val more = feedRepository.loadFeeds(feedId = key)
-            if (more.isNotEmpty()) {
-                it.onSuccess(more)
-                Thread.currentThread()
-            }
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { loadedFeeds ->
-
-            }*/
     }
 
     inner class FeedDataSource : ItemKeyedDataSource<Int, FeedItemEntity>() {
@@ -65,11 +55,13 @@ class FeedViewModel @Inject constructor(val feedRepository: FeedRepository)
 
         // FIXME: 2021/2/16/016 loadInitial中不能使用异步，否则页面无法渲染
         override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<FeedItemEntity>) {
-            callback.onResult(feedRepository.loadFeeds(true, 0))
+            if (feeds.isNotEmpty()) callback.onResult(feeds)
+            else callback.onResult(feedRepository.loadFeeds(true, 0))
         }
 
         override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<FeedItemEntity>) {
             logd("loadAfter   ${params.key}   ${Thread.currentThread().name}")
+            // FIXME: 2021/2/20 Paging自带的上拉加载与我们自己Recyclerview的上拉加载会有冲突，需要处理下 [进行一下同步]
             // callback.onResult(feedRepository.loadFeeds(feedId = params.key))
         }
 

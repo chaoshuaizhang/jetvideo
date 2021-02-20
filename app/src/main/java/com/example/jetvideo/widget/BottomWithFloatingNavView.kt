@@ -43,16 +43,9 @@ class BottomWithFloatingNavView @JvmOverloads constructor(context: Context, attr
         val menuViewField = BottomNavigationView::class.java.getDeclaredField("menuView")
         menuViewField.isAccessible = true
         val menuView = menuViewField.get(this) as BottomNavigationMenuView
+        // TODO: 2020/12/23 这块儿本来打算重写各个view的layout方法，然后改变放置位置，
+        // 但是突然想到设置n+1个tab，中间那个不设置文字、icon，并且取消点击事件
         menuView[2].isClickable = false
-//        // TODO: 2020/12/23 这块儿本来打算重写各个view的layout方法，然后改变放置位置，
-//        // 但是突然想到设置n+1个tab，中间那个不设置文字、icon，并且取消点击事件
-        menuView.children.forEach {
-            if (it.visibility != View.GONE) {
-                if (ViewCompat.getLayoutDirection(it) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                } else {
-                }
-            }
-        }
     }
 
 }

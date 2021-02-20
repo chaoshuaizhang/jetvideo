@@ -51,7 +51,7 @@ abstract class PagedViewModel<K, V>(key: K) : BaseViewModel() {
 
     }
 
-    open val pageList = LivePagedListBuilder<K, V>(factory, config)
+    open val pageList = LivePagedListBuilder(factory, config)
             .setInitialLoadKey(key)
             .setBoundaryCallback(boundaryCallback)
             .build()
