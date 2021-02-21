@@ -121,3 +121,23 @@ setInitialLoadSizeHint：初始加载的数量，如果大于接口请求的pagg
 setPrefetchDistance：当距离当前加载的数据末尾还有几个元素时，去加载下一页，默认是PageSize，也就是第一次加载了PageSize，
 也就是说，第一次加载了10条，那么默认PrefetchDistance是10，
 
+Databinding的一些注解：
+https://developer.android.google.cn/reference/android/databinding/Bindable.html
+
+* BindingConversion注解，当有多个方法名不一样，但是参数和返回值一样的会怎么办？
+>会进行覆盖，下面的方法覆盖上面的方法，也就是只会取一个，取后边的
+@BindingConversion
+fun convertBool2String(liked: Boolean): String {
+    return if (liked) return "icon_cell_liked" else "icon_cell_like"
+}
+@BindingConversion
+fun convertBool2String2(liked: Boolean): String {
+    return if (liked) return "icon_cell_liked222" else "icon_cell_like222"
+}
+
+* BindingMethod
+>有的属性我们的view属性的setter方法跟属性的名称并不相匹配（因为data-bing是通
+过setAttr的形式去寻找对应的setter方法的）。比如说“android:tint”这个属性对应
+的setter方法名称是 setImageTintList(ColorStateList) ，而不是 setTint()
+方法。这时候使用 BindingMethod 注解可以帮助我们重新命名view属性对应的setter方
+法名称。

@@ -2,16 +2,14 @@ package com.example.jetvideo.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.databinding.BindingAdapter
 import com.example.jetvideo.R
 import com.example.jetvideo.util.ScreenUtil
-import com.example.jetvideo.widget.bindingAdapter.bindImageView
-import com.example.jetvideo.widget.bindingAdapter.setBlurView
+import com.example.jetvideo.widget.bindingext.bindImageView
+import com.example.jetvideo.widget.bindingext.setBlurView
 import com.example.libcommon.util.ext.resetParams
 import kotlin.math.min
 

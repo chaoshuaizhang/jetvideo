@@ -1,6 +1,5 @@
-package com.example.jetvideo.widget.bindingAdapter
+package com.example.jetvideo.widget.bindingext
 
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.renderscript.*
@@ -14,7 +13,6 @@ import coil.request.ImageRequest
 import coil.transform.BlurTransformation
 import com.example.jetvideo.R
 import com.example.jetvideo.widget.IconTextView
-import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("imgUrl")
 fun bindImageView(view: ImageView?, url: String?) {

@@ -7,6 +7,9 @@ import com.example.jetvideo.ui.base.BaseViewBindingActivity
 import com.example.jetvideo.databinding.ActivityMainBinding
 import com.example.jetvideo.util.HideShowFragNavigator
 import com.example.libcommon.util.ext.logd
+import com.tencent.tauth.IUiListener
+import com.tencent.tauth.Tencent
+import com.tencent.tauth.UiError
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
@@ -17,9 +20,9 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
 
     override fun initView() {
         val nav = supportFragmentManager.findFragmentById(R.id.container)
-        var navController: NavController
+        val navController: NavController
         try {
-            if(nav is NavHostFragment){
+            if (nav is NavHostFragment) {
                 val navC = (nav as NavHostFragment).navController
                 navController = navC
                 navController.navigatorProvider.addNavigator("hideShowFragNavigator",
@@ -34,11 +37,34 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
                     }
                     true
                 }
-            }else{
+            } else {
                 logd("转换异常  ${nav!!::class.simpleName}")
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    override fun initData() {
+        val tencent = Tencent.createInstance("101794421", applicationContext)
+        if (!tencent.isSessionValid) {
+            tencent.login(this, "all", object : IUiListener {
+                override fun onComplete(p0: Any?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onError(p0: UiError?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onCancel() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onWarning(p0: Int) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
     }
 
