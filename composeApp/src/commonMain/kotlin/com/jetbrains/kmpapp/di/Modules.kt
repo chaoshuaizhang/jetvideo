@@ -5,8 +5,11 @@ import com.jetbrains.kmpapp.data.KtorMuseumApi
 import com.jetbrains.kmpapp.data.MuseumApi
 import com.jetbrains.kmpapp.data.MuseumRepository
 import com.jetbrains.kmpapp.data.MuseumStorage
-import com.jetbrains.kmpapp.screens.detail.DetailViewModel
-import com.jetbrains.kmpapp.screens.list.ListViewModel
+import com.jetbrains.kmpapp.page.tmp.detail.DetailViewModel
+import com.jetbrains.kmpapp.page.tmp.list.ListViewModel
+import com.jetbrains.kmpapp.viewmodel.HomeViewModel
+import com.jetbrains.kmpapp.viewmodel.OwnerViewModel
+import com.jetbrains.kmpapp.viewmodel.main.MainViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
@@ -39,6 +42,9 @@ val dataModule = module {
 val viewModelModule = module {
     factoryOf(::ListViewModel)
     factoryOf(::DetailViewModel)
+    factoryOf(::MainViewModel)
+    factoryOf(::HomeViewModel)
+    factoryOf(::OwnerViewModel)
 }
 
 fun initKoin() {

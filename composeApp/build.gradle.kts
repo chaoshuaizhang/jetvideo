@@ -33,6 +33,13 @@ kotlin {
             implementation(libs.androidx.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(project(":tuiconversation"))
+            implementation(project(":tuicontact"))
+            implementation(project(":tuichat"))
+            implementation(project(":tuicallkit-kt"))
+            implementation("com.tencent.timpush:timpush:8.7.7201")
+            // 按需集成对应厂商推送包
+            implementation("com.tencent.timpush:oppo:8.7.7201")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -57,6 +64,8 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation("org.jetbrains.compose.ui:ui-backhandler:1.9.2")
         }
     }
 }

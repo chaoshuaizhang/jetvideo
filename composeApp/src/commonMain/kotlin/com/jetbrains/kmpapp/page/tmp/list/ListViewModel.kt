@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.list
+package com.jetbrains.kmpapp.page.tmp.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

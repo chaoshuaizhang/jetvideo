@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.detail
+package com.jetbrains.kmpapp.page.tmp.detail
 
 import androidx.lifecycle.ViewModel
 import com.jetbrains.kmpapp.data.MuseumObject
